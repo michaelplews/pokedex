@@ -1,4 +1,4 @@
-# pokedex
+# Pokedex - A digital Lab Notebook Solution for High Throughput Synthetic Projects
 A spin off from the 'Professor Oak' repo, the Pokedex aims to create a directory for storing chemical samples as well as analytical data as they are synthesized.
 
 ## Aims:
