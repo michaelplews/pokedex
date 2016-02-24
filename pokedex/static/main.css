@@ -1,0 +1,174 @@
+/* ngCloak hides unloaded element flicker */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+/* Site-wide styles */
+.breadcrumb {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.main-content {
+    margin-top: 5px;
+    margin-bottom: 50px;
+}
+
+.main-content h2 {
+    margin-top: 0px;
+}
+
+.header h1 {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.header .auth-options .btn {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.header h1 a:hover {
+    text-decoration: none;
+}
+.header img.oak-sprite {
+    display: inline-block;
+    margin-top: -20px;
+    margin-right: 8px;
+    max-height: 40px;
+}
+
+.current-user {
+    margin-top: 5px;
+}
+
+/* General styles for chemical inventory */
+.inventory-icon {
+    height: 24px;
+}
+
+.inventory-buttons {
+    margin-top: 40px;
+    margin-bottom: 50px;
+}
+.inventory-buttons .btn {
+    margin-top: 1px;
+    margin-bottom: 5px;
+}
+
+.login_only{
+    pointer-events: none;
+    opacity: 0.4;
+    font-style: italic;
+}
+
+p.login_notify{
+    pointer-events: none;
+    opacity: 1;
+    font-style: italic;
+}
+#stretch{
+    width: 85%;
+}
+
+.red_alert {
+    color: #D63333
+}
+
+.green_success {
+    color: #1F9E0E
+}
+
+.blue_info {
+    color: #0099FF
+}
+
+/* XKCD Comic displayed on the landing page for chemical_inventory */
+.xkcd {
+    margin-top: 20px;
+}
+
+/* List of chemical in the lab */
+.chemical-list th {
+    border-top: none !important;
+}
+
+.chemical-list .glyphicon {
+    margin-left: 4px;
+}
+
+.no-chemicals {
+    margin-top: 15px;
+}
+
+/* List of containers of a given chemical */
+.empty {
+    opacity: 0.4;
+    font-style: italic;
+}
+
+/* NFPA Hazard Diamond */
+.nfpa-diamond polygon {
+    stroke-width: 1px;
+    stroke: black;
+}
+.nfpa-diamond text {
+    text-anchor: middle;
+    alignment-baseline: middle;
+    fill: black;
+}
+.nfpa-diamond text.water-hazard {
+    text-decoration: line-through;
+}
+
+/* ChemSpider chemical structures */
+img.structure_display {
+    position: relative;
+    vertical-align: text-bottom;
+    right: auto
+}
+
+/* Djang-angular forms */
+form label {
+    margin-bottom: 0px;
+    margin-top: 10px;
+}
+label {
+    font-weight: normal;
+}
+label.required {
+    font-weight: bold;
+}
+/* Adding a new container */
+
+.oak-form-buttons {
+    margin-top: 15px;
+}
+
+.container-form-col {
+    margin-top: -25px;
+}
+
+/* Form validation */
+ul.djng-form-control-feedback,
+ul.djng-field-errors {
+    margin-bottom: 0px;
+    list-style-type: none;
+}
+li.invalid {
+    color: red;
+    font-weight: bold;
+}
+
+/* glossary navigation custom sizing */
+
+.glossarytabs li a {
+  padding-right: 13px;
+  padding-left: 13px;
+}
+
+.table td a  {
+    cursor: pointer;
+    cursor: hand;
+}
+}

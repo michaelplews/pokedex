@@ -13,7 +13,7 @@ urlpatterns = patterns('',
 		views.SampleListView.as_view(),
 		name='sample_list'),
 	url(r'^add/$',
-		views.AddSampleView.as_view(),
+		views.AddSampleView.as_view()),
 		name='add_sample'),
 	url(r'^admin/', include(admin.site.urls)),
 )

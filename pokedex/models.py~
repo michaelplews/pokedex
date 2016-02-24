@@ -23,7 +23,7 @@ class Sample(models.Model):
 	]
 	AVAILABLE_ATMOSPHERES = [
 		(0, 'Argon'), 
-		(1, '5%H2:95%N2'), 
+		(1, '5%H<sub>2</sub>:95%N<sub>2</sub>'), 
 		(2, 'Oxygen'),
 		(3, 'Nitrogen'), 
 		(4, 'Air'),

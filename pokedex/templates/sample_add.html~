@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Add Sample{% endblock %}
+
+{% block content %}
+
+<h2>
+	Add New Sample
+</h2>
+
+<!-- Prevents cross site request forgery -->
+	{% csrf_token %}
+
+<p>(<b>bold</b> = required)</p>
+
+<div>
+	{{ sample_form }}
+</div>
+
+{% endblock %}
