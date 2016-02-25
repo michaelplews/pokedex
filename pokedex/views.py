@@ -20,8 +20,13 @@ class SampleListView(ListView):
 	context_object_name = 'samples'
 	
 	def get_context_data(self, *args, **kwargs):
-		context = super().get_context_data(*args, **kwargs)
+		#sample = self.get_object()
+		context = super(SampleListView, self).get_context_data(*args, **kwargs)
 		return context
+
+	def get_queryset(self, *args, **kwargs):
+		queryset = super().get_queryset(*args, **kwargs)
+		return queryset
 
 class AddSampleView(TemplateView):
 	template_name = 'sample_add.html'

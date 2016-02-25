@@ -16,23 +16,31 @@ class Sample(models.Model):
 	stripped_formula = models.CharField(max_length=50, db_index=True, blank=True)
 
 	AVAILABLE_MEDIUMS = [
-		(0, 'Ballmill'), 
-		(1, 'Tube: Borosilicate'),
-		(2, 'Tube: Quartz'), 
-		(3, 'Tube: Alumina'),
+		('Ballmill', 'Ballmill'), 
+		('Tube: Borosilicate', 'Tube: Borosilicate'),
+		('Tube: Quartz', 'Tube: Quartz'), 
+		('Tube: Alumina', 'Tube: Alumina'),
 	]
 	AVAILABLE_ATMOSPHERES = [
-		(0, 'Argon'), 
-		(1, '5%H2:95%N2'), 
-		(2, 'Oxygen'),
-		(3, 'Nitrogen'), 
-		(4, 'Air'),
+		('Argon', 'Argon'), 
+		('5%H2:95%N2', '5%H2:95%N2'), 
+		('Oxygen', 'Oxygen'),
+		('Nitrogen', 'Nitrogen'), 
+		('Air', 'Air'),
 	]
 
-	experiment_medium = models.IntegerField(choices=AVAILABLE_MEDIUMS)
-	experiment_atmosphere = models.IntegerField(choices=AVAILABLE_ATMOSPHERES)
-	experiment_temperature = models.FloatField()
+	experiment_medium = models.CharField(max_length=50, choices=AVAILABLE_MEDIUMS)
+	experiment_atmosphere = models.CharField(max_length=50, choices=AVAILABLE_ATMOSPHERES)
+	experiment_variable = models.FloatField(null=True, blank=True)
+	experiment_time = models.FloatField()
 	experiment_equation = models.CharField(max_length=200, blank=True)
+	variable_units = models.CharField(max_length=5, blank=True)	
+
+	analysis_XRD = models.BooleanField()
+	analysis_EC = models.BooleanField()
+	analysis_TEM = models.BooleanField()
+	analysis_TGA = models.BooleanField()
+	analysis_XAS = models.BooleanField()
 
 	start_date = models.DateField(null=True, default=datetime.date.today)
 	end_date = models.DateField(null=True, default=datetime.date.today)
@@ -49,3 +57,11 @@ class Sample(models.Model):
 def strip_formula(sender, instance, raw, using, update_fields, *args, **kwargs):
 	"""Strips the formula supplied to remove underscores and carrots, saves it as the stripped_formula field. Used for formula searching."""
 	instance.stripped_formula = instance.formula.replace("_","").replace("^","")
+
+@receiver(signals.pre_save, sender=Sample)
+def add_variable_units(sender, instance, raw, using, update_fields, *args, **kwargs):
+	"""Adds the variable units of the experiment_variable field depending on the experiment_medium"""
+	if 'Tube:' in instance.experiment_medium:
+		instance.variable_units = '^oC'
+	elif 'Ballmill' in instance.experiment_medium:
+		instance.variable_units = 'rpm'

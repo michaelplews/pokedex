@@ -8,17 +8,17 @@
 <h2>
 	Add New Sample
 </h2>
-
+<form method="POST">
 <!-- Prevents cross site request forgery -->
 	{% csrf_token %}
 
 <p>(<b>bold</b> = required)</p>
 
 <div>
-	<form method="POST">
+
 	{{ sample_form }}
 	 <input type="submit" value="Submit">
-	</form>
-</div>
 
+</div>
+	</form>
 {% endblock %}
