@@ -22,17 +22,17 @@
   </div>
 </div>
 
-{% if sample %}
+{% if Sample.objects.all() %}
 
-	{% for samples in samples %}
+	{% for samples in Sample.objects.all() %}
 		{{ samples.name }}
 		{{ samples.sample_id }}
 	{% endfor %}
 
 {% else %}
-<!-- No chemicals were found -->
-<div class="alert alert-warning no-chemicals">
-  You have no samples! Best get on with making some!
-</div>
+	<!-- No samples were found -->
+	<div class="alert alert-warning no-chemicals">
+  	You have no samples! Best get on with making some!
+	</div>
 {% endif %}
 {% endblock %}

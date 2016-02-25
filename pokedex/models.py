@@ -10,7 +10,7 @@ from django.db.models import signals
 class Sample(models.Model):
 	"""A Sample refers to the resulting compound of a specific experiment
 	"""
-	sample_id = models.CharField(max_length=10, db_index=True)
+	sample_number = models.CharField(max_length=10, db_index=True)
 	name = models.CharField(max_length=200, db_index=True)
 	formula = models.CharField(max_length=50, db_index=True, blank=True)
 	stripped_formula = models.CharField(max_length=50, db_index=True, blank=True)
@@ -32,7 +32,7 @@ class Sample(models.Model):
 	experiment_medium = models.IntegerField(choices=AVAILABLE_MEDIUMS)
 	experiment_atmosphere = models.IntegerField(choices=AVAILABLE_ATMOSPHERES)
 	experiment_temperature = models.FloatField()
-	experiment_equation = models.CharField(max_length=200)
+	experiment_equation = models.CharField(max_length=200, blank=True)
 
 	start_date = models.DateField(null=True, default=datetime.date.today)
 	end_date = models.DateField(null=True, default=datetime.date.today)
@@ -40,20 +40,12 @@ class Sample(models.Model):
 	user = models.ForeignKey(User, blank=True, null=True)
 
 	class Meta:
-		ordering = ['sample_id']
+		ordering = ['sample_number']
 
 	def __str__(self):
-		return "{sample_id} ({formula})".format(name=self.name, formula=self.stripped_formula)
+		return "{sample_number} ({formula})".format(sample_number=self.sample_number, formula=self.stripped_formula)
 
 @receiver(signals.pre_save, sender=Sample)
 def strip_formula(sender, instance, raw, using, update_fields, *args, **kwargs):
 	"""Strips the formula supplied to remove underscores and carrots, saves it as the stripped_formula field. Used for formula searching."""
 	instance.stripped_formula = instance.formula.replace("_","").replace("^","")
-
-class Medium(models.Model):
-	"""The Medium describes the vessel where the reaction was completed."""
-	name = models.CharField(max_length=50)
-	
-class Gas(models.Model):
-	"""The Gas describes the atmosphere the reaction was done in."""
-	name = models.CharField(max_length=50) 

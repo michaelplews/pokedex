@@ -15,7 +15,10 @@
 <p>(<b>bold</b> = required)</p>
 
 <div>
+	<form method="POST">
 	{{ sample_form }}
+	 <input type="submit" value="Submit">
+	</form>
 </div>
 
 {% endblock %}

@@ -22,9 +22,9 @@
   </div>
 </div>
 
-{% if sample %}
+{% if Sample.objects.all %}
 
-	{% for samples in samples %}
+	{% for samples in Sample.objects.all %}
 		{{ samples.name }}
 		{{ samples.sample_id }}
 	{% endfor %}
