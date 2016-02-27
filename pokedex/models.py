@@ -5,7 +5,8 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from django.db.models import signals
+from django.db.models import signals, Count
+from django.contrib.auth.models import User
 
 class Sample(models.Model):
 	"""A Sample refers to the resulting compound of a specific experiment
@@ -45,6 +46,8 @@ class Sample(models.Model):
 	start_date = models.DateField(null=True, default=datetime.date.today)
 	end_date = models.DateField(null=True, default=datetime.date.today)
 
+	associated_project = models.ManyToManyField('Project')
+
 	user = models.ForeignKey(User, blank=True, null=True)
 
 	class Meta:
@@ -52,6 +55,36 @@ class Sample(models.Model):
 
 	def __str__(self):
 		return "{sample_number} ({formula})".format(sample_number=self.sample_number, formula=self.stripped_formula)
+
+class Project(models.Model):
+	"""A Project refers to the grouping of Samples. Specific users should only be able to add a Sample to a certain Project. The name field should describe the Project with no elements or chemical names."""
+	name = models.CharField(max_length=50)
+	
+	class Meta:
+		ordering = ['name']
+	
+	def __str__(self):
+		return "{name}".format(name=self.name)
+
+class User_Project(models.Model):
+	"""Describes the active projects associated with a user"""
+	user = models.OneToOneField(User)
+	active_project = models.ManyToManyField('Project')
+	
+	@property
+	def first_name(self):
+		return self.user.first_name
+
+	@property
+	def last_name(self):
+		return self.user.last_name	
+
+	class Meta:
+		verbose_name ='User Project'
+		verbose_name_plural = 'User Projects'
+	
+	def __str__(self):
+		return "{first} {last} (Active Projects: {length})".format(first=self.first_name, last=self.last_name, length=self.active_project.count(), )
 
 @receiver(signals.pre_save, sender=Sample)
 def strip_formula(sender, instance, raw, using, update_fields, *args, **kwargs):
@@ -64,4 +97,4 @@ def add_variable_units(sender, instance, raw, using, update_fields, *args, **kwa
 	if 'Tube:' in instance.experiment_medium:
 		instance.variable_units = '^oC'
 	elif 'Ballmill' in instance.experiment_medium:
-		instance.variable_units = 'rpm'
+		instance.variable_units = ' rpm'

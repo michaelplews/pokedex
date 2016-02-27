@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load custom_filters %}
 {% block title %}Home{% endblock %}
 
 {% block content %}
@@ -8,6 +8,16 @@
 <a href="{% url 'add_sample' %}" class="btn btn-primary">
 	<span class="glyphicon glyphicon-plus"></span>
 </a>
-<a href="{% url 'sample_list' %}" class="btn btn-primary">Sample List</a>
+<div class="row">
+	<div class="col-md-12 col-md-offset-1 text-center">
+		<h2>Select Your Project:</h2>
+{% if object_list %}
+	{% for project in object_list %}
+<a href="{% url 'sample_list' %}" class="btn btn-default">{{ project.name }}</a>
 
+	{% endfor %}
+
+{% endif %}
+	</div>
+</div>
 {% endblock %}

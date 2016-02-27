@@ -23,6 +23,10 @@
   </div>
 </div>
 
+<a href="{% url 'home' %}" class="btn btn-default">
+	<span class="glyphicon glyphicon-home"></span>
+</a>
+
 <table class="table chemical-list">
   <tr>
 	<th>Sample Number</th>
@@ -41,7 +45,7 @@
 	<td>{{ samples.end_date }}</td>
 	<td>{{ samples.experiment_medium }}</td>
 	<td>{{ samples.experiment_atmosphere }}</td>
-	<td>{{ samples.experiment_variable }} {{ samples.variable_units|formula_markup }} for {{ samples.experiment_time }}h</td>
+	<td>{{ samples.experiment_variable }}{{ samples.variable_units|formula_markup }} for {{ samples.experiment_time }}h</td>
 	<td>
 	{% if samples.analysis_XRD %}<span class="icon-XRD XRD-active"></span>{% else %}<span class="icon-XRD"></span>{% endif %}
 	{% if samples.analysis_EC %}<span class="icon-EC EC-active"></span>{% else %}<span class="icon-EC"></span>{% endif %}

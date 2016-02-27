@@ -2,7 +2,7 @@
 import datetime
 
 from django import forms
-from djangular.forms import NgFormValidationMixin, NgModelFormMixin, NgModelForm, NgForm
+#from djangular.forms import NgFormValidationMixin, NgModelFormMixin, NgModelForm, NgForm
 from djangular.styling.bootstrap3.forms import Bootstrap3FormMixin
 
 from . import models
@@ -32,7 +32,7 @@ class SampleForm(forms.ModelForm):
                                   required=False)
 
 	analysis_XRD = forms.BooleanField(label='XRD')
-	analysis_EC = forms.BooleanField(label='EC')
+	analysis_EC = forms.BooleanField(label='EChem')
 	analysis_TEM = forms.BooleanField(label='TEM')
 	analysis_TGA = forms.BooleanField(label='TGA')
 	analysis_XAS = forms.BooleanField(label='XAS')

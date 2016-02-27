@@ -2,14 +2,16 @@
 from django.views.generic.list import ListView
 from django.views.generic.base import TemplateView
 
-from .models import Sample
+from .models import Sample, Project
 from .forms import SampleForm
 
-class Main(TemplateView):
+class Main(ListView):
 	template_name = 'home.html'
+	model = Project
+	context_object_name = 'project'
 
 	def get_context_data(self, *args, **kwargs):
-		context = super().get_context_data(*args, **kwargs)
+		context = super(Main, self).get_context_data(*args, **kwargs)
 		return context
 
 class SampleListView(ListView):

@@ -1,4 +1,4 @@
-pokedex/admin.py
+#pokedex/admin.py
 
 from django.contrib import admin
 

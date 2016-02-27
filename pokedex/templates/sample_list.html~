@@ -23,6 +23,10 @@
   </div>
 </div>
 
+<a href="{% url 'home' %}" class="btn btn-default">
+	<span class="glyphicon glyphicon-home"></span>
+</a>
+
 <table class="table chemical-list">
   <tr>
 	<th>Sample Number</th>
@@ -36,7 +40,7 @@
 {% if object_list %}
 	{% for samples in object_list %}
   <tr>
-	<td>{{ samples.sample_number }} and {{ samples.analysis_XRD }}</td>
+	<td>{{ samples.sample_number }}</td>
 	<td>{{ samples.formula|formula_markup }}</td>
 	<td>{{ samples.end_date }}</td>
 	<td>{{ samples.experiment_medium }}</td>
