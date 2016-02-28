@@ -8,6 +8,11 @@
 <h2>
 	Add New Sample
 </h2>
+
+<a href="{% url 'home' %}" class="btn btn-default">
+	<span class="glyphicon glyphicon-home"></span>
+</a>
+
 <form method="POST">
 <!-- Prevents cross site request forgery -->
 	{% csrf_token %}

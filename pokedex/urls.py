@@ -5,13 +5,13 @@ from . import views
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$',
+    	url(r'^$',
 		views.Main.as_view(), 
 		name='home'),
     # url(r'^blog/', include('blog.urls')),
-	url(r'^samples/$',
+	url(r'^project/(?P<id>[0-9]+)/$',
 		views.SampleListView.as_view(),
-		name='sample_list'),
+		name='samples_by_projects'),
 	url(r'^add/$',
 		views.AddSampleView.as_view(),
 		name='add_sample'),

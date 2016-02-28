@@ -66,6 +66,11 @@ class Project(models.Model):
 	def __str__(self):
 		return "{name}".format(name=self.name)
 
+	def detail_url(self):
+		"""Returns the url for the Project"""
+		url = reverse('samples_by_projects', kwargs={'id': self.id})
+		return url
+
 class User_Project(models.Model):
 	"""Describes the active projects associated with a user"""
 	user = models.OneToOneField(User)
@@ -84,7 +89,7 @@ class User_Project(models.Model):
 		verbose_name_plural = 'User Projects'
 	
 	def __str__(self):
-		return "{user} (Active Projects: {length})".format(user=self.user, length=self.active_project.count(), )
+		return "{first} {last} (Active Projects: {length})".format(first=self.first_name, last=self.last_name, length=self.active_project.count(), )
 
 @receiver(signals.pre_save, sender=Sample)
 def strip_formula(sender, instance, raw, using, update_fields, *args, **kwargs):

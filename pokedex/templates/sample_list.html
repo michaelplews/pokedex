@@ -26,6 +26,9 @@
 <a href="{% url 'home' %}" class="btn btn-default">
 	<span class="glyphicon glyphicon-home"></span>
 </a>
+{% if object_list %}
+	{% for samples in object_list %}
+		{% if samples.filter(associated_projects=1) %}
 
 <table class="table chemical-list">
   <tr>
@@ -37,8 +40,7 @@
 	<th>Variables</th>
 	<th>Analysis</th>
   </tr>
-{% if object_list %}
-	{% for samples in object_list %}
+
   <tr>
 	<td>{{ samples.sample_number }}</td>
 	<td>{{ samples.formula|formula_markup }}</td>
@@ -47,18 +49,19 @@
 	<td>{{ samples.experiment_atmosphere }}</td>
 	<td>{{ samples.experiment_variable }}{{ samples.variable_units|formula_markup }} for {{ samples.experiment_time }}h</td>
 	<td>
-	{% if samples.analysis_XRD %}<span class="icon-XRD XRD-active"></span>{% else %}<span class="icon-XRD"></span>{% endif %}
-	{% if samples.analysis_EC %}<span class="icon-EC EC-active"></span>{% else %}<span class="icon-EC"></span>{% endif %}
-	{% if samples.analysis_TEM %}<span class="icon-TEM TEM-active"></span>{% else %}<span class="icon-TEM"></span>{% endif %}
-	{% if samples.analysis_TGA %}<span class="icon-TGA TGA-active"></span>{% else %}<span class="icon-TGA"></span>{% endif %}
-	{% if samples.analysis_XAS %}<span class="icon-XAS XAS-active"></span>{% else %}<span class="icon-XAS"></span>{% endif %}
+	{% if samples.analysis_XRD %}<span class="icon-XRD XRD-active" title="X-Ray Diffraction"></span>{% else %}<span class="icon-XRD" title="X-Ray Diffraction"></span>{% endif %}
+	{% if samples.analysis_EC %}<span class="icon-EC EC-active" title="Electrochemistry"></span>{% else %}<span class="icon-EC" title="Electrochemistry"></span>{% endif %}
+	{% if samples.analysis_TEM %}<span class="icon-TEM TEM-active" title="Electron Microscopy"></span>{% else %}<span class="icon-TEM" title="Electron Microscopy"></span>{% endif %}
+	{% if samples.analysis_TGA %}<span class="icon-TGA TGA-active" title="Thermogravimetric Analysis"></span>{% else %}<span class="icon-TGA" title="Thermogravimetric Analysis"></span>{% endif %}
+	{% if samples.analysis_XAS %}<span class="icon-XAS XAS-active" title="X-Ray Absorption Spectroscopy"></span>{% else %}<span class="icon-XAS" title="X-Ray Absorption Spectroscopy"></span>{% endif %}
 	</td>
   </tr>
+		{% endif %}	
 	{% endfor %}
 {% else %}
 	<!-- No samples were found -->
 	<div class="alert alert-warning no-chemicals">
-  	You have no samples! Best get on with making some!
+  	You have no samples! Best get on with making some
 	</div>
 {% endif %}
 {% endblock %}

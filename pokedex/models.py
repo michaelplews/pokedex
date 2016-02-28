@@ -1,6 +1,7 @@
 #pokedex/models.py
 import datetime
 
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -65,6 +66,11 @@ class Project(models.Model):
 	
 	def __str__(self):
 		return "{name}".format(name=self.name)
+
+	def detail_url(self):
+		"""Returns the url for the Project"""
+		url = reverse('samples_by_projects', kwargs={'id': self.id})
+		return url
 
 class User_Project(models.Model):
 	"""Describes the active projects associated with a user"""
