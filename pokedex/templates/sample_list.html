@@ -26,9 +26,8 @@
 <a href="{% url 'home' %}" class="btn btn-default">
 	<span class="glyphicon glyphicon-home"></span>
 </a>
-{% if samples %}
-	{% for sample in samples %}
 
+{% if samples %}
 <table class="table chemical-list">
   <tr>
 	<th>Sample Number</th>
@@ -40,6 +39,7 @@
 	<th>Analysis</th>
   </tr>
 
+	{% for sample in samples %}
   <tr>
 	<td>{{ sample.sample_number }}</td>
 	<td>{{ sample.formula|formula_markup }}</td>

@@ -16,7 +16,7 @@ class Main(ListView):
 		return context
 
 class SampleListView(DetailView):
-	"""View that shows all Samples currently in the database"""
+	"""View that shows all Samples currently in the under the specified Project"""
 	
 	template_name = 'sample_list.html'
 	model = Project
@@ -31,21 +31,12 @@ class SampleListView(DetailView):
 		return context
 
 	def get_object(self):
-		"""Return the specific chemical by its primary key ('pk')."""
+		"""Return the specific Project by its primary key ('pk')."""
         	# Find the primary key from the url
 		pk = self.kwargs['id']
-        	# Get the actual Chemical object
+        	# Get the actual Project object
 		project = Project.objects.get(pk=pk)
 		return project	
-
-	def get_queryset(self, *args, **kwargs):
-		queryset = Sample.objects.all()
-		project = self.get_object()
-		if project is not None:
-			#queryset = queryset.filter(associated_project==project)
-			return queryset
-		else:	
-			return queryset
 
 class AddSampleView(TemplateView):
 	template_name = 'sample_add.html'
