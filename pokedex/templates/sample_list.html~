@@ -27,7 +27,7 @@
 	<span class="glyphicon glyphicon-home"></span>
 </a>
 
-
+{% if samples %}
 <table class="table chemical-list">
   <tr>
 	<th>Sample Number</th>
@@ -39,7 +39,6 @@
 	<th>Analysis</th>
   </tr>
 
-{% if samples %}
 	{% for sample in samples %}
   <tr>
 	<td>{{ sample.sample_number }}</td>
@@ -61,7 +60,7 @@
 {% else %}
 	<!-- No samples were found -->
 	<div class="alert alert-warning no-chemicals">
-  	You have no samples! Best get on with making some
+  	You have no samples associated with this project!
 	</div>
 {% endif %}
 {% endblock %}

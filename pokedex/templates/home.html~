@@ -13,11 +13,15 @@
 		<h2>Select Your Project:</h2>
 {% if object_list %}
 	{% for project in object_list %}
-<a href="{% url 'samples_by_projects' %}" class="btn btn-default">{{ project.name }}</a>
+<a href="{{ project.detail_url }}" class="btn btn-default">{{ project.name }}</a>
 
 	{% endfor %}
 
 {% endif %}
+<p></p>
+<a href="{% url 'add_sample' %}" class="btn btn-primary">
+	<span class="glyphicon glyphicon-plus"></span>
+</a>
 	</div>
 </div>
 {% endblock %}

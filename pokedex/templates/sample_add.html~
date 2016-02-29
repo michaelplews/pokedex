@@ -13,16 +13,16 @@
 	<span class="glyphicon glyphicon-home"></span>
 </a>
 
-<form method="POST">
+<form id="add_sample_form" method="POST" action="{% url 'add_sample' %}">
 <!-- Prevents cross site request forgery -->
 	{% csrf_token %}
 
-<p>(<b>bold</b> = required)</p>
+
 
 <div>
 
-	{{ sample_form }}
-	 <input type="submit" value="Submit">
+	{{ sample_form.as_p }}
+	 <input type="submit" value="Submit" class="btn btn-primary" />
 
 </div>
 	</form>

@@ -1,6 +1,7 @@
 #pokedex/models.py
 import datetime
 
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -33,15 +34,15 @@ class Sample(models.Model):
 	experiment_medium = models.CharField(max_length=50, choices=AVAILABLE_MEDIUMS)
 	experiment_atmosphere = models.CharField(max_length=50, choices=AVAILABLE_ATMOSPHERES)
 	experiment_variable = models.FloatField(null=True, blank=True)
-	experiment_time = models.FloatField()
+	experiment_time = models.FloatField(blank=True, null=True)
 	experiment_equation = models.CharField(max_length=200, blank=True)
 	variable_units = models.CharField(max_length=5, blank=True)	
 
-	analysis_XRD = models.BooleanField()
-	analysis_EC = models.BooleanField()
-	analysis_TEM = models.BooleanField()
-	analysis_TGA = models.BooleanField()
-	analysis_XAS = models.BooleanField()
+	analysis_XRD = models.BooleanField(blank=True, null=True)
+	analysis_EC = models.BooleanField(blank=True, null=True)
+	analysis_TEM = models.BooleanField(blank=True, null=True)
+	analysis_TGA = models.BooleanField(blank=True, null=True)
+	analysis_XAS = models.BooleanField(blank=True, null=True)
 
 	start_date = models.DateField(null=True, default=datetime.date.today)
 	end_date = models.DateField(null=True, default=datetime.date.today)

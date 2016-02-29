@@ -2,6 +2,11 @@
 from django.views.generic.list import ListView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import FormView, CreateView
+from django.http import HttpResponseRedirect, Http404, HttpRequest
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.shortcuts import render
+from django.forms import ModelForm
 
 from .models import Sample, Project, User_Project
 from .forms import SampleForm
@@ -16,7 +21,7 @@ class Main(ListView):
 		return context
 
 class SampleListView(DetailView):
-	"""View that shows all Samples currently in the database"""
+	"""View that shows all Samples currently in the under the specified Project"""
 	
 	template_name = 'sample_list.html'
 	model = Project
@@ -37,12 +42,24 @@ class SampleListView(DetailView):
         	# Get the actual Project object
 		project = Project.objects.get(pk=pk)
 		return project	
+	
 
-class AddSampleView(TemplateView):
+
+class AddSampleView(CreateView):
 	template_name = 'sample_add.html'
-	model = Sample
+	#	model = Sample
+	success_url = reverse_lazy('home')
 	form_class = SampleForm
 
+	def form_valid(self, form):
+		if form.is_valid:
+			form.save()
+			#return render(request, template_name, {'form':form})
+			return HttpResponseRedirect(self.success_url)
+	
+	def form_invalid(self, form):
+		return render(HttpRequest, self.template_name, {'form':form})
+	
 	def get_context_data(self, *args, **kwargs):
 		context = super().get_context_data(*args, **kwargs)
 		context.update(sample_form=SampleForm())
