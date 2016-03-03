@@ -137,7 +137,8 @@ label {
     font-weight: normal;
 }
 label.required {
-    font-weight: bold;
+    font-weight: normal;
+	color: red;
 }
 /* Adding a new container */
 

@@ -4,7 +4,6 @@
 {% block title %}Add Sample{% endblock %}
 
 {% block content %}
-
 <h2>
 	Add New Sample
 </h2>
@@ -12,18 +11,51 @@
 <a href="{% url 'home' %}" class="btn btn-default">
 	<span class="glyphicon glyphicon-home"></span>
 </a>
-
-<form id="add_sample_form" method="POST" action="{% url 'add_sample' %}">
+<p>(<b>bold</b> = required)</p>
+<div>
+	<form id="add_sample_form" method="POST" action="">
 <!-- Prevents cross site request forgery -->
 	{% csrf_token %}
 
+{% for field in sample_form %}
+    <div class="fieldWrapper">
+        {{ field.errors }}
+		{{ field.non_field_errors }}
+        {{ field.label_tag }} {{ field }}
+        {% if field.help_text %}
+        <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %}
+    </div>
+{% endfor %}
 
+	 <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled"/>
 
-<div>
+	</form>
 
-	{{ sample_form.as_p }}
-	 <input type="submit" value="Submit" class="btn btn-primary" />
+<script>
+var x = document.getElementsByClassName('required')[0].id
+var toValidate = $(x),
+    valid = false;
+toValidate.keyup(function () {
+    if ($(this).val().length > 0) {
+        $(this).data('valid', true);
+    } else {
+        $(this).data('valid', false);
+    }
+    toValidate.each(function () {
+        if ($(this).data('valid') == true) {
+            valid = true;
+        } else {
+            valid = false;
+        }
+    });
+    if (valid === true) {
+        $('input[type=submit]').prop('disabled', false);
+    }else{
+        $('input[type=submit]').prop('disabled', true);        
+    }
+});
+</script>
 
 </div>
-	</form>
 {% endblock %}

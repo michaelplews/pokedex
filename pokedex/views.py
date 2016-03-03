@@ -47,18 +47,19 @@ class SampleListView(DetailView):
 
 class AddSampleView(CreateView):
 	template_name = 'sample_add.html'
-	#	model = Sample
 	success_url = reverse_lazy('home')
 	form_class = SampleForm
 
-	def form_valid(self, form):
-		if form.is_valid:
+	def post(self, request, *args, **kwargs):
+		form_class = self.form_class
+		form = self.get_form(form_class)
+		if form.is_valid():
 			form.save()
 			#return render(request, template_name, {'form':form})
 			return HttpResponseRedirect(self.success_url)
+		#else:
 	
-	def form_invalid(self, form):
-		return render_to_response(self.template_name, {'form':form})
+
 	
 	def get_context_data(self, *args, **kwargs):
 		context = super().get_context_data(*args, **kwargs)

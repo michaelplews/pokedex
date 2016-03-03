@@ -21,9 +21,9 @@ class SampleForm(forms.ModelForm):
 	name = forms.CharField(max_length=200, required=True)
 	formula = forms.CharField(max_length=50, required=False)
 
-	experiment_variable = forms.FloatField(label='Variable')
-	experiment_time = forms.FloatField(label='Time (h)')
-	experiment_equation = forms.CharField(label='Stoichiometric Equation', max_length=200)
+	experiment_variable = forms.FloatField(label='Variable (rpm/oC/etc.)', required=True)
+	experiment_time = forms.FloatField(label='Time (h)', required=True)
+	experiment_equation = forms.CharField(label='Stoichiometric Equation', max_length=200, required=False)
 
 
 	start_date = forms.DateField(widget=DateInput(),
@@ -31,11 +31,17 @@ class SampleForm(forms.ModelForm):
 	end_date = forms.DateField(widget=DateInput(),
                                   required=False)
 
-	analysis_XRD = forms.BooleanField(label='XRD')
-	analysis_EC = forms.BooleanField(label='EChem')
-	analysis_TEM = forms.BooleanField(label='TEM')
-	analysis_TGA = forms.BooleanField(label='TGA')
-	analysis_XAS = forms.BooleanField(label='XAS')
+	analysis_XRD = forms.BooleanField(label='XRD', required=False)
+	analysis_EC = forms.BooleanField(label='EChem', required=False)
+	analysis_TEM = forms.BooleanField(label='TEM', required=False)
+	analysis_TGA = forms.BooleanField(label='TGA', required=False)
+	analysis_XAS = forms.BooleanField(label='XAS', required=False)
+
+	def __init__(self, *args, **kwargs):
+		super(SampleForm, self).__init__(*args, **kwargs)
+
+		for key in self.fields:
+			pass
 
 	class Meta:
 		model = models.Sample

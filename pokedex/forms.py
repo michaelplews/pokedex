@@ -16,12 +16,13 @@ class DateInput(forms.widgets.DateInput):
 class SampleForm(forms.ModelForm):
 	scope_prefix = 'sample'
 	form_name = 'sample_form'
+	required_css_class = 'required'
 
 	sample_number = forms.CharField(label='Sample ID', max_length=10, required=True)
 	name = forms.CharField(max_length=200, required=True)
 	formula = forms.CharField(max_length=50, required=False)
 
-	experiment_variable = forms.FloatField(label='Variable', required=True)
+	experiment_variable = forms.FloatField(label='Variable (rpm/oC/etc.)', required=True)
 	experiment_time = forms.FloatField(label='Time (h)', required=True)
 	experiment_equation = forms.CharField(label='Stoichiometric Equation', max_length=200, required=False)
 
@@ -36,6 +37,12 @@ class SampleForm(forms.ModelForm):
 	analysis_TEM = forms.BooleanField(label='TEM', required=False)
 	analysis_TGA = forms.BooleanField(label='TGA', required=False)
 	analysis_XAS = forms.BooleanField(label='XAS', required=False)
+
+	def __init__(self, *args, **kwargs):
+		super(SampleForm, self).__init__(*args, **kwargs)
+
+		for key in self.fields:
+			pass
 
 	class Meta:
 		model = models.Sample
