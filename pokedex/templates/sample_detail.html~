@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block title %}Sample List{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-6">
+    <h2>Sample Details | {{ sample.sample_number }}</h2>
+	<a href="{% url 'home' %}" class="btn btn-default">
+	<span class="glyphicon glyphicon-home"></span></a>
+  </div>
+</div>
+<div class="row">
+	<div class="col-sm-4">
+		<dl>
+			<dt>Name</dt>
+			<dd>{{ sample.name }}</dd>
+
+			<dt>Formula</dt>
+			<dd>{{ sample.formula|formula_markup }}</dd>
+		</dl>
+	</div>
+	<div class="col-sm-6">
+		<img src="http://www.availstaffing.com/wp-content/uploads/2010/07/Temporary-Button.jpg"
+		 class="img-responsive"
+		 title="Appearance of {{ sample.sample_number }}"></img>
+	</div>
+</div>
+<div class="row">
+	<div>{{ sample.experiment_equation }}</div>
+<div class="col-sm-4">
+	<dl>
+		<dt>Medium</dt>
+		<dd>{{ sample.experiment_medium }}</dd>
+	
+		<dt>Atmosphere</dt>
+		<dd>{{ sample.experiment_atmosphere }}</dd>
+	</dl>
+</div>
+<script type="text/javascript"
+   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+{% endblock %}

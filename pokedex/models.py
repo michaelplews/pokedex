@@ -57,6 +57,11 @@ class Sample(models.Model):
 	def __str__(self):
 		return "{sample_number} ({formula})".format(sample_number=self.sample_number, formula=self.stripped_formula)
 
+	def detail_url(self):
+		"""Return the url for the detailed view of the sample"""
+		url = reverse('sample_detail', kwargs={'id': self.id})
+		return url
+
 class Project(models.Model):
 	"""A Project refers to the grouping of Samples. Specific users should only be able to add a Sample to a certain Project. The name field should describe the Project with no elements or chemical names."""
 	name = models.CharField(max_length=50)

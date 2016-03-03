@@ -51,13 +51,15 @@ class AddSampleView(CreateView):
 	form_class = SampleForm
 
 	def post(self, request, *args, **kwargs):
+		self.object = None
 		form_class = self.form_class
 		form = self.get_form(form_class)
 		if form.is_valid():
 			form.save()
 			#return render(request, template_name, {'form':form})
 			return HttpResponseRedirect(self.success_url)
-		#else:
+		else:
+			return self.form_invalid(form)
 	
 
 	
@@ -65,3 +67,19 @@ class AddSampleView(CreateView):
 		context = super().get_context_data(*args, **kwargs)
 		context.update(sample_form=SampleForm())
 		return context
+
+class SampleDetailView(DetailView):
+	template_name = 'sample_detail.html'
+	template_object_name = 'sample'
+	
+	def get_object(self):
+		"""Return the specific sample by its id"""
+		id = self.kwargs['id']
+		sample = Sample.objects.get(id=id)
+		return sample
+
+	def get_context_data(self, *args, **kwargs):
+		sample = self.get_object()
+		context = super().get_context_data(*args, **kwargs)
+		return context
+	

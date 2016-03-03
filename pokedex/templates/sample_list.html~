@@ -30,7 +30,7 @@
 {% if samples %}
 <table class="table chemical-list">
   <tr>
-	<th>Sample Number</th>
+	<th>Sample</th>
 	<th>Formula</th>
 	<th>Date Completed</th>
 	<th>Medium</th>

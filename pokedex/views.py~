@@ -51,6 +51,7 @@ class AddSampleView(CreateView):
 	form_class = SampleForm
 
 	def post(self, request, *args, **kwargs):
+		self.object = None
 		form_class = self.form_class
 		form = self.get_form(form_class)
 		if form.is_valid():
@@ -58,10 +59,27 @@ class AddSampleView(CreateView):
 			#return render(request, template_name, {'form':form})
 			return HttpResponseRedirect(self.success_url)
 		else:
-			return self.render_to_response(self.get_context_data(form=form, errors=form.errors))
+			return self.form_invalid(form)
+	
 
 	
 	def get_context_data(self, *args, **kwargs):
 		context = super().get_context_data(*args, **kwargs)
 		context.update(sample_form=SampleForm())
 		return context
+
+class SampleDetailView(DetailView):
+	template_name = 'sample_detail.html'
+	template_object_name = 'sample'
+	
+	def get_object(self):
+		"""Return the specific sample by its pk"""
+		pk = self.kwargs['pk']
+		sample = Sample.objects.get(pk=pk)
+		return sample
+
+	def get_context_data(self, *args, **kwargs):
+		sample = self.get_object()
+		context = super().get_context_data(*args, **kwargs)
+		return context
+	

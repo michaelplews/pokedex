@@ -2,7 +2,7 @@
 import datetime
 
 from django import forms
-#from djangular.forms import NgFormValidationMixin, NgModelFormMixin, NgModelForm, NgForm
+from djangular.forms import NgFormValidationMixin, NgModelFormMixin, NgModelForm, NgForm
 #from djangular.styling.bootstrap3.forms import Bootstrap3FormMixin
 
 from . import models

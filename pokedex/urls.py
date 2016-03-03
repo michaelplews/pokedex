@@ -15,5 +15,8 @@ urlpatterns = patterns('',
 	url(r'^add/$',
 		views.AddSampleView.as_view(),
 		name='add_sample'),
+	url(r'^sample/(?P<id>[0-9]+)/$',
+		views.SampleDetailView.as_view(),
+		name='sample_detail'),
 	url(r'^admin/', include(admin.site.urls)),
 )

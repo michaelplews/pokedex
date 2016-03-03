@@ -13,48 +13,35 @@
 </a>
 <p>(<b>bold</b> = required)</p>
 <div>
-	<form id="add_sample_form" method="POST" action="">
+	<form name="{{ sample_form.form_name }}" id="add_sample_form" method="POST" action="" novalidate>
 <!-- Prevents cross site request forgery -->
 	{% csrf_token %}
 
-{% for field in sample_form %}
+{% for field in form %}
+{% if error in field.error %}
     <div class="fieldWrapper">
-        {{ field.errors }}
-		{{ field.non_field_errors }}
-        {{ field.label_tag }} {{ field }}
-        {% if field.help_text %}
+        {{ field.label_tag }} {{ field }} {{ field.error }}    
+	{% if field.help_text %}
         <p class="help">{{ field.help_text|safe }}</p>
         {% endif %}
     </div>
+{% else %}
+    <div class="fieldWrapper">
+        {{ field.label_tag }} {{ field }}   
+	{% if field.help_text %}
+        <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %}
+    </div>
+{% endif %}
 {% endfor %}
 
-	 <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled"/>
+
+	 <input type="submit" value="Submit" ng-disabled="{{ form.form_name }}.$invalid" class="btn btn-primary" />
 
 	</form>
 
 <script>
-var x = document.getElementsByClassName('required')[0].id
-var toValidate = $(x),
-    valid = false;
-toValidate.keyup(function () {
-    if ($(this).val().length > 0) {
-        $(this).data('valid', true);
-    } else {
-        $(this).data('valid', false);
-    }
-    toValidate.each(function () {
-        if ($(this).data('valid') == true) {
-            valid = true;
-        } else {
-            valid = false;
-        }
-    });
-    if (valid === true) {
-        $('input[type=submit]').prop('disabled', false);
-    }else{
-        $('input[type=submit]').prop('disabled', true);        
-    }
-});
+
 </script>
 
 </div>

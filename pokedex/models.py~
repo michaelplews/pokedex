@@ -38,11 +38,11 @@ class Sample(models.Model):
 	experiment_equation = models.CharField(max_length=200, blank=True)
 	variable_units = models.CharField(max_length=5, blank=True)	
 
-	analysis_XRD = models.BooleanField(blank=True, null=True)
-	analysis_EC = models.BooleanField(blank=True, null=True)
-	analysis_TEM = models.BooleanField(blank=True, null=True)
-	analysis_TGA = models.BooleanField(blank=True, null=True)
-	analysis_XAS = models.BooleanField(blank=True, null=True)
+	analysis_XRD = models.BooleanField(default=False)
+	analysis_EC = models.BooleanField(default=False)
+	analysis_TEM = models.BooleanField(default=False)
+	analysis_TGA = models.BooleanField(default=False)
+	analysis_XAS = models.BooleanField(default=False)
 
 	start_date = models.DateField(null=True, default=datetime.date.today)
 	end_date = models.DateField(null=True, default=datetime.date.today)
@@ -56,6 +56,11 @@ class Sample(models.Model):
 
 	def __str__(self):
 		return "{sample_number} ({formula})".format(sample_number=self.sample_number, formula=self.stripped_formula)
+
+	def detail_url(self):
+		"""Return the url for the detailed view of the sample"""
+		url = reverse('sample_detail', kwargs={'pk': self.pk})
+		return url
 
 class Project(models.Model):
 	"""A Project refers to the grouping of Samples. Specific users should only be able to add a Sample to a certain Project. The name field should describe the Project with no elements or chemical names."""
