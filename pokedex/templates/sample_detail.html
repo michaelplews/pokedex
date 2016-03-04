@@ -3,16 +3,15 @@
 {% block title %}Sample List{% endblock %}
 
 {% block content %}
-
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-sm-6">
     <h2>Sample Details | {{ sample.sample_number }}</h2>
 	<a href="{% url 'home' %}" class="btn btn-default">
 	<span class="glyphicon glyphicon-home"></span></a>
   </div>
 </div>
 <div class="row">
-	<div class="col-sm-4">
+	<div class="col-sm-6">
 		<dl>
 			<dt>Name</dt>
 			<dd>{{ sample.name }}</dd>
@@ -22,25 +21,85 @@
 		</dl>
 	</div>
 	<div class="col-sm-6">
-		<img src="http://www.availstaffing.com/wp-content/uploads/2010/07/Temporary-Button.jpg"
-		 class="img-responsive"
-		 title="Appearance of {{ sample.sample_number }}"></img>
+		<img style="height:725px;max-width:500px;width: expression(this.width > 500 ? 500: true);"
+			{% if sample.file_photo %}
+				src="{{ sample.file_photo.url }}"
+			{% else %}			
+				src="http://www.availstaffing.com/wp-content/uploads/2010/07/Temporary-Button.jpg"
+			{% endif %}		
+ 			class="img-responsive" title="Appearance of {{ sample.sample_number }}">
+		</img>
 	</div>
 </div>
 <div class="row">
 	<div class="latex">{{ sample.experiment_equation|latex_surr }}</div>
 </div>
-<div class="col-sm-4">
-	<dl>
-		<dt>Medium</dt>
-		<dd>{{ sample.experiment_medium }}</dd>
+<div class="row">
+	<div class="col-sm-4">
+		<dl>
+			<dt>Medium</dt>
+			<dd>{{ sample.experiment_medium }}</dd>
 	
-		<dt>Atmosphere</dt>
-		<dd>{{ sample.experiment_atmosphere }}</dd>
-	</dl>
+			<dt>Atmosphere</dt>
+			<dd>{{ sample.experiment_atmosphere }}</dd>
+		</dl>
+	</div>
+	<div class="col-sm-4">
+		<dl>
+			<dt>Experiment Variables</dt>
+			<dd>{{ sample.experiment_variable }}{{ sample.variable_units|formula_markup }}</dd>
+		
+			<dt>Experiment Time</dt>
+			<dd>{{ sample.experiment_time }} hours</dd>
+		</dl>
+	</div>
+	<div class="col-sm-4">
+		<dl>
+			<dt>Comments/Experiment Description</dt>
+			<dd>{{ sample.comment|formula_markup }}</dd>
+		</dl>
+	</div>
 </div>
-
-
+<div class="row">
+	<div class="container">
+		<ul class="nav nav-tabs">
+			{% if sample.file_XRD %}<li><a data-toggle="tab" href="#XRD">XRD</a></li>{% else %}{% endif %}
+			{% if sample.file_EC %}<li><a data-toggle="tab" href="#EC">EC</a></li>{% else %}{% endif %}
+			{% if sample.file_TEM %}<li><a data-toggle="tab" href="#TEM">TEM</a></li>{% else %}{% endif %}
+			{% if sample.file_TGA %}<li><a data-toggle="tab" href="#TGA">TGA</a></li>{% else %}{% endif %}
+			{% if sample.file_XAS %}<li><a data-toggle="tab" href="#XAS">XAS</a></li>{% else %}{% endif %}
+		</ul>
+	</div>
+	<div class="tab-content center">
+		{% if sample.file_XRD %}<div id="XRD" class="tab-pane fade">
+			<embed src="{{ sample.file_XRD.url }}?zoom=50" width="80%" height="900px">
+		</div>{% else %}{% endif %}
+		{% if sample.file_EC %}<div id="EC" class="tab-pane fade">
+			<embed src="{{ sample.file_EC.url }}?zoom=50" width="80%" height="900px">
+		</div>{% else %}{% endif %}
+		{% if sample.file_TEM %}<div id="TEM" class="tab-pane fade">
+			<iframe src="{{ sample.file_TEM.url }}"></iframe>
+		</div>{% else %}{% endif %}
+		{% if sample.file_TGA %}<div id="TGA" class="tab-pane fade">
+			<iframe src="{{ sample.file_TGA.url }}"></iframe>
+		</div>{% else %}{% endif %}
+		{% if sample.file_XAS %}<div id="XAS" class="tab-pane fade">
+			<iframe src="{{ sample.file_XAS.url }}"></iframe>
+		</div>{% else %}{% endif %}
+	</div>
+</div>
 <script type="text/javascript"
    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+$(function() {
+   var newwidth = $(window).width() - 250;
+   $('iframe').css({width: newwidth+'px'});
+});
+
+$(window).resize(function() {
+   var newwidth = $(window).width() - 250;
+   $('iframe').css({width: newwidth+'px'});
+});
+</script>
+	
 {% endblock %}

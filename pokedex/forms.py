@@ -46,5 +46,4 @@ class SampleForm(forms.ModelForm):
 
 	class Meta:
 		model = models.Sample
-		fields = ['sample_number', 'name', 'formula', 'experiment_medium', 'experiment_atmosphere',
-					'experiment_variable', 'experiment_time', 'experiment_equation', 'start_date', 						'end_date', 'analysis_XRD', 'analysis_EC', 'analysis_TEM', 'analysis_TGA', 						'analysis_XAS', 'associated_project']
+		fields = ['sample_number', 'name', 'formula', 'experiment_medium', 'experiment_atmosphere','experiment_variable', 'experiment_time', 'experiment_equation', 'start_date','end_date', 'comment','analysis_XRD', 'file_XRD', 'analysis_EC', 'analysis_TEM', 'analysis_TGA', 'analysis_XAS', 'associated_project']

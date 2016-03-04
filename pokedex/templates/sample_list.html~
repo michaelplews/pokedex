@@ -41,7 +41,11 @@
 
 	{% for sample in samples %}
   <tr>
-	<td>{{ sample.sample_number }}</td>
+	<td>
+		<a href="{{ sample.detail_url }}" title="Detailed information on sample {{ sample.sample_number }}">
+		{{ sample.sample_number }}
+		</a>
+	</td>
 	<td>{{ sample.formula|formula_markup }}</td>
 	<td>{{ sample.end_date }}</td>
 	<td>{{ sample.experiment_medium }}</td>

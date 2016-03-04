@@ -6,6 +6,4 @@ A spin off from the 'Professor Oak' repo, the Pokedex aims to create a directory
  - Include a list of samples that each link to an individual page detailing synthetic conditions and data associated with them.
  - Filter by synthesized compound
  - Filter by multiple conditions (drop down menu??)
- - Allow disply of either plotted data in display for (.jpg, .pdf, etc.) or allow raw data to be uploaded and plotted in matplot lib.
- - ICONS FOR TECHNIQUES!!!!!!
-	 - Make each technique into a glyphicon via svg and incorperate them to the list of samples. 
+ - Allow disply of either plotted data in display for (.jpg, .pdf, etc.) or allow raw data to be uploaded and plotted in matplotlib.

@@ -1,13 +1,22 @@
 #pokedex/models.py
 import datetime
+import os
 
 from django.core.urlresolvers import reverse
+from django.core.files import File
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models import signals, Count
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+
+root_file_storage = './pokedex/data/'
+
+def validate_file_extension(value):
+    if not value.name.endswith('.pdf'):
+        raise ValidationError(u'Only .pdf files are accepted at this time')
 
 class Sample(models.Model):
 	"""A Sample refers to the resulting compound of a specific experiment
@@ -39,10 +48,19 @@ class Sample(models.Model):
 	variable_units = models.CharField(max_length=5, blank=True)	
 
 	analysis_XRD = models.BooleanField(default=False)
+	file_XRD = models.FileField(upload_to=root_file_storage+'XRD', null=True, blank=True, validators=[validate_file_extension])
+
 	analysis_EC = models.BooleanField(default=False)
+	file_EC = models.FileField(upload_to=root_file_storage+'EC', null=True, blank=True, validators=[validate_file_extension])
+
 	analysis_TEM = models.BooleanField(default=False)
+	file_TEM = models.FileField(upload_to=root_file_storage+'TEM', null=True, blank=True, validators=[validate_file_extension])
+
 	analysis_TGA = models.BooleanField(default=False)
+	file_TGA = models.FileField(upload_to=root_file_storage+'TGA', null=True, blank=True, validators=[validate_file_extension])
+
 	analysis_XAS = models.BooleanField(default=False)
+	file_XAS = models.FileField(upload_to=root_file_storage+'XAS', null=True, blank=True, validators=[validate_file_extension])
 
 	start_date = models.DateField(null=True, default=datetime.date.today)
 	end_date = models.DateField(null=True, default=datetime.date.today)
@@ -50,6 +68,8 @@ class Sample(models.Model):
 	associated_project = models.ManyToManyField('Project')
 
 	user = models.ForeignKey(User, blank=True, null=True)
+
+	comment = models.TextField(blank=True)
 
 	class Meta:
 		ordering = ['sample_number']
@@ -100,13 +120,7 @@ class User_Project(models.Model):
 @receiver(signals.pre_save, sender=Sample)
 def strip_formula(sender, instance, raw, using, update_fields, *args, **kwargs):
 	"""Strips the formula supplied to remove underscores and carrots, saves it as the stripped_formula field. Used for formula searching."""
-	instance.stripped_formula = instance.formula.replace("_","").replace("^","")
-
-@receiver(signals.pre_save, sender=Sample)
-def surround_latex(sender, instance, *args, **kwargs):
-	"""Surround LaTeX with '$$' so MathJax can display it properly"""
-	if instance.experiment_equation:
-		instance.experiment_equation = '$$' + instance.experiment_equation + '$$'
+	instance.stripped_formula = instance.formula.replace("_","").replace("^","")	
 
 @receiver(signals.pre_save, sender=Sample)
 def add_variable_units(sender, instance, raw, using, update_fields, *args, **kwargs):
