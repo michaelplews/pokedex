@@ -59,7 +59,7 @@ class Sample(models.Model):
 
 	def detail_url(self):
 		"""Return the url for the detailed view of the sample"""
-		url = reverse('sample_detail', kwargs={'pk': self.pk})
+		url = reverse('sample_detail', kwargs={'id': self.id})
 		return url
 
 class Project(models.Model):
@@ -101,6 +101,12 @@ class User_Project(models.Model):
 def strip_formula(sender, instance, raw, using, update_fields, *args, **kwargs):
 	"""Strips the formula supplied to remove underscores and carrots, saves it as the stripped_formula field. Used for formula searching."""
 	instance.stripped_formula = instance.formula.replace("_","").replace("^","")
+
+@receiver(signals.pre_save, sender=Sample)
+def surround_latex(sender, instance, *args, **kwargs):
+	"""Surround LaTeX with '$$' so MathJax can display it properly"""
+	if instance.experiment_equation:
+		instance.experiment_equation = '$$' + instance.experiment_equation + '$$'
 
 @receiver(signals.pre_save, sender=Sample)
 def add_variable_units(sender, instance, raw, using, update_fields, *args, **kwargs):

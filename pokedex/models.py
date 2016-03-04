@@ -102,6 +102,12 @@ def strip_formula(sender, instance, raw, using, update_fields, *args, **kwargs):
 	"""Strips the formula supplied to remove underscores and carrots, saves it as the stripped_formula field. Used for formula searching."""
 	instance.stripped_formula = instance.formula.replace("_","").replace("^","")
 
+#@receiver(signals.pre_save, sender=Sample)
+#def surround_latex(sender, instance, *args, **kwargs):
+#	"""Surround LaTeX with '$$' so MathJax can display it properly"""
+#	if instance.experiment_equation:
+#		instance.experiment_equation = '$$' + instance.experiment_equation + '$$'
+
 @receiver(signals.pre_save, sender=Sample)
 def add_variable_units(sender, instance, raw, using, update_fields, *args, **kwargs):
 	"""Adds the variable units of the experiment_variable field depending on the experiment_medium"""

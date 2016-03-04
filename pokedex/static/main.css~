@@ -128,6 +128,10 @@ img.structure_display {
     right: auto
 }
 
+div.latex {
+	font-size: 200%
+}
+
 /* Djang-angular forms */
 form label {
     margin-bottom: 0px;
@@ -137,8 +141,7 @@ label {
     font-weight: normal;
 }
 label.required {
-    font-weight: normal;
-	color: red;
+    font-weight: bold;
 }
 /* Adding a new container */
 

@@ -28,7 +28,8 @@
 	</div>
 </div>
 <div class="row">
-	<div>{{ sample.experiment_equation }}</div>
+	<div class="latex">{{ sample.experiment_equation }}</div>
+</div>
 <div class="col-sm-4">
 	<dl>
 		<dt>Medium</dt>
@@ -38,6 +39,8 @@
 		<dd>{{ sample.experiment_atmosphere }}</dd>
 	</dl>
 </div>
+
+
 <script type="text/javascript"
    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 {% endblock %}

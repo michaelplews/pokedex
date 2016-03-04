@@ -25,3 +25,8 @@ def formula_markup(formula):
         x += 1
     formula = formula.replace("_","").replace("^", "")
     return mark_safe(formula)
+
+@register.filter(name='latex_surr')
+def latex_surr(equation):
+	equation = '$$' + equation + '$$'
+	return mark_safe(equation)

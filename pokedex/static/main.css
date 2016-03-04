@@ -128,6 +128,10 @@ img.structure_display {
     right: auto
 }
 
+div.latex {
+	font-size: 175%
+}
+
 /* Djang-angular forms */
 form label {
     margin-bottom: 0px;
