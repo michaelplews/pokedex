@@ -2,6 +2,7 @@
 import datetime
 
 from django import forms
+from image_cropping import ImageCropWidget
 
 from . import models
 
@@ -30,12 +31,6 @@ class SampleForm(forms.ModelForm):
 	end_date = forms.DateField(widget=DateInput(),
                                   required=False)
 
-	analysis_XRD = forms.BooleanField(label='XRD', required=False)
-	analysis_EC = forms.BooleanField(label='EChem', required=False)
-	analysis_TEM = forms.BooleanField(label='TEM', required=False)
-	analysis_TGA = forms.BooleanField(label='TGA', required=False)
-	analysis_XAS = forms.BooleanField(label='XAS', required=False)
-
 	def __init__(self, *args, **kwargs):
 		super(SampleForm, self).__init__(*args, **kwargs)
 
@@ -44,4 +39,4 @@ class SampleForm(forms.ModelForm):
 
 	class Meta:
 		model = models.Sample
-		fields = ['sample_number', 'name', 'formula', 'experiment_medium', 'experiment_atmosphere','experiment_variable', 'experiment_time', 'experiment_equation', 'start_date','end_date', 'comment','analysis_XRD', 'file_XRD', 'analysis_EC', 'analysis_TEM', 'analysis_TGA', 'analysis_XAS', 'associated_project']
+		fields = ['sample_number', 'name', 'formula', 'experiment_medium', 'experiment_atmosphere','experiment_variable', 'experiment_time', 'experiment_equation', 'start_date','end_date', 'comment', 'file_photo','file_XRD', 'file_EC', 'file_TEM', 'file_TGA', 'file_XAS','associated_project']

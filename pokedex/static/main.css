@@ -38,6 +38,26 @@
     max-height: 40px;
 }
 
+img.sample-appearance {
+	max-height: 250px;
+	float: right;
+	display: inline-block;
+	right: 0px;
+	top: 0px;
+	
+}
+
+.hover-fade {
+   opacity: 1;
+   transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;
+   }
+
+   .hover-fade:hover {
+      opacity: 0.5;
+      }
+
 .current-user {
     margin-top: 5px;
 }

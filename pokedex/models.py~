@@ -12,6 +12,8 @@ from django.db.models import signals, Count
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from image_cropping import ImageRatioField
+
 root_file_storage = './pokedex/data/'
 
 def validate_file_extension(value):
@@ -34,7 +36,7 @@ class Sample(models.Model):
 	]
 	AVAILABLE_ATMOSPHERES = [
 		('Argon', 'Argon'), 
-		('5%H2:95%N2', '5%H2:95%N2'), 
+		('5%H_2:95%N_2', '5%H2:95%N2'), 
 		('Oxygen', 'Oxygen'),
 		('Nitrogen', 'Nitrogen'), 
 		('Air', 'Air'),
@@ -47,19 +49,12 @@ class Sample(models.Model):
 	experiment_equation = models.CharField(max_length=200, blank=True)
 	variable_units = models.CharField(max_length=5, blank=True)	
 
-	analysis_XRD = models.BooleanField(default=False)
+	file_photo = models.ImageField(upload_to=root_file_storage+'Photo', null=True, blank=True)
+	cropping = ImageRatioField('file_photo', '300x300') 
 	file_XRD = models.FileField(upload_to=root_file_storage+'XRD', null=True, blank=True, validators=[validate_file_extension])
-
-	analysis_EC = models.BooleanField(default=False)
 	file_EC = models.FileField(upload_to=root_file_storage+'EC', null=True, blank=True, validators=[validate_file_extension])
-
-	analysis_TEM = models.BooleanField(default=False)
 	file_TEM = models.FileField(upload_to=root_file_storage+'TEM', null=True, blank=True, validators=[validate_file_extension])
-
-	analysis_TGA = models.BooleanField(default=False)
 	file_TGA = models.FileField(upload_to=root_file_storage+'TGA', null=True, blank=True, validators=[validate_file_extension])
-
-	analysis_XAS = models.BooleanField(default=False)
 	file_XAS = models.FileField(upload_to=root_file_storage+'XAS', null=True, blank=True, validators=[validate_file_extension])
 
 	start_date = models.DateField(null=True, default=datetime.date.today)

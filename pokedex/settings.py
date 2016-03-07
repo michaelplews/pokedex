@@ -10,8 +10,12 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import mimetypes
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+#Add support for .svg and .svgz file rendering
+mimetypes.add_type("image/svg+xml", ".svg", True)
+mimetypes.add_type("image/svg+xml", ".svgz", True)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -36,8 +40,19 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+	'easy_thumbnails', # from https://github.com/jonasundderwolf/django-image-cropping
+	'image_cropping', # from https://github.com/jonasundderwolf/django-image-cropping
 	'pokedex'
 )
+
+#User image-cropping configuration
+from easy_thumbnails.conf import Settings as thumbnail_settings
+THUMBNAIL_PROCESSORS = (
+	'image_cropping.thumbnail_processors.crop_corners',
+	) + thumbnail_settings.THUMBNAIL_PROCESSORS
+
+#Had to extract the /static/image_cropping to my static folder from the master zip before this would work for some reason
+
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -81,6 +96,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
+STATIC_ROOT = 'static_files/'
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = '.'

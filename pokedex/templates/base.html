@@ -26,6 +26,19 @@
   </head>
 
  	<body>
-		{% block content %}{% endblock %}
+	<div class="container">
+		<div class="row header">
+			<div class="col-md-10">
+				<!-- Icons would go here but I'm not sure I want any yet -->
+			</div>
+			<div class="col-md-2">
+				<!-- User authentication and user_id -->
+			</div>
+		</div>
+	
+		<div class="main-content">
+			{% block content %}{% endblock %}
+		</div>
+	</div>	
 	</body>
 </html>

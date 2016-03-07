@@ -49,7 +49,7 @@
 	<td>{{ sample.formula|formula_markup }}</td>
 	<td>{{ sample.end_date }}</td>
 	<td>{{ sample.experiment_medium }}</td>
-	<td>{{ sample.experiment_atmosphere }}</td>
+	<td>{{ sample.experiment_atmosphere|formula_markup }}</td>
 	<td>{{ sample.experiment_variable }}{{ sample.variable_units|formula_markup }} for {{ sample.experiment_time }}h</td>
 	<td>
 	{% if sample.file_XRD %}<span class="icon-XRD XRD-active" title="X-Ray Diffraction"></span>{% else %}<span class="icon-XRD" title="X-Ray Diffraction"></span>{% endif %}

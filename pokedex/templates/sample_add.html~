@@ -4,6 +4,9 @@
 {% block title %}Add Sample{% endblock %}
 
 {% block content %}
+<head>
+	{{ form.media }}
+</head>
 <h2>
 	Add New Sample
 </h2>
@@ -18,26 +21,19 @@
 	{% csrf_token %}
 
 {% for field in form %}
-{% if error in field.error %}
     <div class="fieldWrapper">
-        {{ field.label_tag }} {{ field }} {{ field.error }}    
+        {{ field.label_tag }} {{ field }}
+        {% for error in field.errors %}
+			<p style="color:#FA0101">{{ error }}</p>
+		{% endfor %}        
 	{% if field.help_text %}
         <p class="help">{{ field.help_text|safe }}</p>
         {% endif %}
     </div>
-{% else %}
-    <div class="fieldWrapper">
-        {{ field.label_tag }} {{ field }}   
-	{% if field.help_text %}
-        <p class="help">{{ field.help_text|safe }}</p>
-        {% endif %}
-    </div>
-{% endif %}
 {% endfor %}
 
 
 	 <input type="submit" value="Submit" ng-disabled="{{ form.form_name }}.$invalid" class="btn btn-primary" />
-
 	</form>
 
 <script>

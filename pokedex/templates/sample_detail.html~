@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% load custom_filters %}
+{% load cropping %}
 {% block title %}Sample List{% endblock %}
 
 {% block content %}
@@ -11,31 +13,14 @@
   </div>
 </div>
 <div class="row">
-	<div class="col-sm-6">
+	<div class="col-sm-4">
 		<dl>
 			<dt>Name</dt>
 			<dd>{{ sample.name }}</dd>
 
 			<dt>Formula</dt>
 			<dd>{{ sample.formula|formula_markup }}</dd>
-		</dl>
-	</div>
-	<div class="col-sm-6">
-		<img style="height:725px;max-width:500px;width: expression(this.width > 500 ? 500: true);">
-			{% if sample.file_photo %}
-				src="{{ sample.file_photo.url }}"
-			{% else %}			
-				src="http://www.availstaffing.com/wp-content/uploads/2010/07/Temporary-Button.jpg"
-			{% endif %}		
- 			class="img-responsive" title="Appearance of {{ sample.sample_number }}">
-		</img>
-	</div>
-</div>
-<div class="row">
-	<div class="latex">{{ sample.experiment_equation|latex_surr }}</div>
-</div>
-<div class="row">
-	<div class="col-sm-4">
+		</dl>	
 		<dl>
 			<dt>Medium</dt>
 			<dd>{{ sample.experiment_medium }}</dd>
@@ -44,7 +29,7 @@
 			<dd>{{ sample.experiment_atmosphere }}</dd>
 		</dl>
 	</div>
-	<div class="col-sm-4">
+	<div class="col-sm-3">
 		<dl>
 			<dt>Experiment Variables</dt>
 			<dd>{{ sample.experiment_variable }}{{ sample.variable_units|formula_markup }}</dd>
@@ -52,13 +37,23 @@
 			<dt>Experiment Time</dt>
 			<dd>{{ sample.experiment_time }} hours</dd>
 		</dl>
-	</div>
-	<div class="col-sm-4">
 		<dl>
 			<dt>Comments/Experiment Description</dt>
 			<dd>{{ sample.comment|formula_markup }}</dd>
 		</dl>
 	</div>
+	<div class="col-sm-5">
+		{% if sample.cropping %}
+			<img src="{% cropped_thumbnail sample "cropping" scale=1 %}" title="Appearance of {{ sample.sample_number }}" class="sample-appearance" />
+		{% elif sample.file_photo %}	
+			<img src="{{ sample.file_photo.url }}" title="Appearance of {{ sample.sample_number }}" class="sample-appearance" />	
+		{% else %}	
+			<a href=""><img src="{% static 'Upload.svg' %}" title="Click here to upload an image of the sample" class="sample-appearance fade" /></a>
+		{% endif %}
+	</div>
+</div>
+<div class="row">
+	<div class="latex">{{ sample.experiment_equation|latex_surr }}</div>
 </div>
 <div class="row">
 	<div class="container">
@@ -91,15 +86,6 @@
 <script type="text/javascript"
    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script>
-$(function() {
-   var newwidth = $(window).width() - 250;
-   $('iframe').css({width: newwidth+'px'});
-});
-
-$(window).resize(function() {
-   var newwidth = $(window).width() - 250;
-   $('iframe').css({width: newwidth+'px'});
-});
 </script>
 	
 {% endblock %}
