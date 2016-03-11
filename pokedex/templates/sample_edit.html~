@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-
-{% block title %}Add Sample{% endblock %}
+{% load cropping %}
+{% block title %}Edit Sample{% endblock %}
 
 {% block content %}
 <head>
 	{{ form.media }}
 </head>
 <h2>
-	Add New Sample
+	Edit Sample Information
 </h2>
 
 <a href="{% url 'home' %}" class="btn btn-default">

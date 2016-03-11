@@ -39,4 +39,9 @@ class SampleForm(forms.ModelForm):
 
 	class Meta:
 		model = models.Sample
-		fields = ['sample_number', 'name', 'formula', 'experiment_medium', 'experiment_atmosphere','experiment_variable', 'experiment_time', 'experiment_equation', 'start_date','end_date', 'comment', 'file_photo','file_XRD', 'file_EC', 'file_TEM', 'file_TGA', 'file_XAS','associated_project']
+		widget = {
+					'file_photo': ImageCropWidget,
+				}
+		fields = [
+		'sample_number', 'name', 'formula', 'experiment_medium', 			'experiment_atmosphere','experiment_variable', 'experiment_time', 			'experiment_equation', 'start_date','end_date', 'comment', 'file_photo','file_XRD', 		'file_EC', 'file_TEM', 'file_TGA', 'file_XAS','associated_project'
+		]

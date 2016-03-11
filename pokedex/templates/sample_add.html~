@@ -16,7 +16,7 @@
 </a>
 <p>(<b>bold</b> = required)</p>
 <div>
-	<form name="{{ sample_form.form_name }}" id="add_sample_form" method="POST" action="" novalidate>
+	<form enctype="multipart/form-data" name="{{ sample_form.form_name }}" id="add_sample_form" method="POST" action="" novalidate>
 <!-- Prevents cross site request forgery -->
 	{% csrf_token %}
 

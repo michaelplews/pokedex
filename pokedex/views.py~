@@ -2,7 +2,7 @@
 from django.views.generic.list import ListView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import FormView, CreateView
+from django.views.generic.edit import FormView, CreateView, UpdateView
 from django.http import HttpResponseRedirect, Http404, HttpRequest
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render, render_to_response
@@ -68,14 +68,50 @@ class AddSampleView(CreateView):
 		context.update(sample_form=SampleForm())
 		return context
 
+class EditSampleView(UpdateView):
+	template_name = 'sample_edit.html'
+	template_object_name = 'sample'
+	model = Sample
+	form_class = SampleForm
+
+	def get_object(self):
+		"""Returns the specific sample by its id"""
+		pk = self.kwargs['id']
+		sample = Sample.objects.get(id=pk)
+		return sample
+
+	def form_valid(self,form):
+		obj = form.save(commit=False)
+		obj.save()
+		return HttpResponseRedirect(self.get_success_url())
+	
+
+class EditSamplePhotoView(UpdateView):
+	template_name = 'sample_photo_edit.html'
+	template_object_name = 'sample'
+	model = Sample
+	form_class = SampleForm
+
+	def get_object(self):
+		"""Returns the specific sample by its id"""
+		id = self.kwargs['id']
+		sample = Sample.objects.get(id=id)
+		return sample
+
+	def form_valid(self,form):
+		obj = form.save(commit=False)
+		obj.save()
+		return HttpResponseRedirect(self.get_success_url())
+		
+	
 class SampleDetailView(DetailView):
 	template_name = 'sample_detail.html'
 	template_object_name = 'sample'
 	
 	def get_object(self):
-		"""Return the specific sample by its pk"""
-		pk = self.kwargs['pk']
-		sample = Sample.objects.get(pk=pk)
+		"""Return the specific sample by its id"""
+		id = self.kwargs['id']
+		sample = Sample.objects.get(id=id)
 		return sample
 
 	def get_context_data(self, *args, **kwargs):

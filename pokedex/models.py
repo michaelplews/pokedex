@@ -12,13 +12,15 @@ from django.db.models import signals, Count
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from image_cropping import ImageRatioField
+from image_cropping import ImageRatioField, ImageCropField
 
 root_file_storage = './pokedex/data/'
 
+accepted_upload_extensions = [".jpg", ".jpeg"]
+
 def validate_file_extension(value):
-    if not value.name.endswith('.pdf'):
-        raise ValidationError(u'Only .pdf files are accepted at this time')
+    if not value.name.endswith(tuple(accepted_upload_extensions)):
+        raise ValidationError(u'Only .jpg or .jpeg files are accepted at this time')
 
 class Sample(models.Model):
 	"""A Sample refers to the resulting compound of a specific experiment
@@ -49,8 +51,10 @@ class Sample(models.Model):
 	experiment_equation = models.CharField(max_length=200, blank=True)
 	variable_units = models.CharField(max_length=5, blank=True)	
 
-	file_photo = models.ImageField(upload_to=root_file_storage+'Photo', null=True, blank=True)
+	file_photo = ImageCropField(upload_to=root_file_storage+'Photo', null=True, blank=True)
+
 	cropping = ImageRatioField('file_photo', '300x300') 
+
 	file_XRD = models.FileField(upload_to=root_file_storage+'XRD', null=True, blank=True, validators=[validate_file_extension])
 	file_EC = models.FileField(upload_to=root_file_storage+'EC', null=True, blank=True, validators=[validate_file_extension])
 	file_TEM = models.FileField(upload_to=root_file_storage+'TEM', null=True, blank=True, validators=[validate_file_extension])
@@ -77,6 +81,19 @@ class Sample(models.Model):
 		url = reverse('sample_detail', kwargs={'id': self.id})
 		return url
 
+	def edit_url(self):
+		"""Return the url for the edit view opf the sample"""
+		url = reverse('edit_sample', kwargs={'id': self.id})
+		return url
+
+	def edit_photo_url(self):
+		"""Return the url for the photo edit view of the sample"""
+		url = reverse('edit_sample_photo', kwargs={'id': self.id})
+		return url
+
+	def get_absolute_url(self):
+		return reverse('sample_detail', kwargs={'id': self.id})
+
 class Project(models.Model):
 	"""A Project refers to the grouping of Samples. Specific users should only be able to add a Sample to a certain Project. The name field should describe the Project with no elements or chemical names."""
 	name = models.CharField(max_length=50)
@@ -90,7 +107,7 @@ class Project(models.Model):
 	def detail_url(self):
 		"""Returns the url for the Project"""
 		url = reverse('samples_by_projects', kwargs={'id': self.id})
-		return url
+		return url	
 
 class User_Project(models.Model):
 	"""Describes the active projects associated with a user"""

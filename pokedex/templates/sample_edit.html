@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-
-{% block title %}Add Sample{% endblock %}
+{% load cropping %}
+{% block title %}Edit Sample{% endblock %}
 
 {% block content %}
 <head>
 	{{ form.media }}
 </head>
 <h2>
-	Add New Sample
+	Edit Sample Information
 </h2>
 
 <a href="{% url 'home' %}" class="btn btn-default">
@@ -16,7 +16,7 @@
 </a>
 <p>(<b>bold</b> = required)</p>
 <div>
-	<form enctype="multipart/form-data" name="{{ sample_form.form_name }}" id="add_sample_form" method="POST" action="" novalidate>
+	<form enctype="multipart/form-data" name="{{ sample_form.form_name }}" id="add_sample_form" method="POST" action="">
 <!-- Prevents cross site request forgery -->
 	{% csrf_token %}
 

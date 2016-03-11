@@ -19,6 +19,12 @@ urlpatterns = patterns('',
 	url(r'^sample/(?P<id>[0-9]+)/$',
 		views.SampleDetailView.as_view(),
 		name='sample_detail'),
+	url(r'^edit/(?P<id>[0-9]+)/$',
+		views.EditSampleView.as_view(),
+		name='edit_sample'),
+	url(r'^edit_photo/(?P<id>[0-9]+)/$',
+		views.EditSamplePhotoView.as_view(),
+		name='edit_sample_photo'),	
 	url(r'^admin/', include(admin.site.urls)),
 )
 
