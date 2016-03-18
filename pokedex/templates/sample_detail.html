@@ -34,6 +34,14 @@
 			<dt>Atmosphere</dt>
 			<dd>{{ sample.experiment_atmosphere }}</dd>
 		</dl>
+		<dl>
+			<dt>Date</dt>
+			{% if sample.end_date == sample.start_date %}
+			<dd>{{ sample.end_date }}
+			{% else %}
+			<dd>{{ sample.start_date }} - {{ sample.end_date }}</dd>
+			{% endif %}		
+		</dl>
 	</div>
 	<div class="col-sm-3">
 		<dl>

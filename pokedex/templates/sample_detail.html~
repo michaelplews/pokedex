@@ -33,6 +33,13 @@
 	
 			<dt>Atmosphere</dt>
 			<dd>{{ sample.experiment_atmosphere }}</dd>
+
+			<dt>Date</dt>
+			{% if sample.end_date == sample.start_date %}
+			<dd>{{ sample.end_date }}
+			{% else %}
+			<dd>{{ sample.start_date }} - {{ sample.end_date }}</dd>
+			{% endif %}		
 		</dl>
 	</div>
 	<div class="col-sm-3">
@@ -49,7 +56,7 @@
 		</dl>
 	</div>
 	<div class="col-sm-5">
-		<a href="{{ sample.edit_photo_url }}"		
+		<a href="{{ sample.edit_photo_url }}">
 		{% if sample.cropping %}
 			<img src="{% cropped_thumbnail sample "cropping" scale=1 %}" title="Appearance of {{ sample.sample_number }}" class="sample-appearance" />
 		{% elif sample.file_photo %}	

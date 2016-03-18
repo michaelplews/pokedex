@@ -12,7 +12,7 @@ from django.db.models import signals, Count
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from image_cropping import ImageRatioField, ImageCropField
+from image_cropping import ImageCropField, ImageRatioField
 
 root_file_storage = './pokedex/data/'
 
@@ -51,9 +51,9 @@ class Sample(models.Model):
 	experiment_equation = models.CharField(max_length=200, blank=True)
 	variable_units = models.CharField(max_length=5, blank=True)	
 
-	file_photo = ImageCropField(upload_to=root_file_storage+'Photo', null=True, blank=True)
+	file_photo = ImageCropField(blank=True, null=True, upload_to=root_file_storage+'Photo')
 
-	cropping = ImageRatioField('file_photo', '300x300') 
+	cropping = ImageRatioField('file_photo', '300x300')
 
 	file_XRD = models.FileField(upload_to=root_file_storage+'XRD', null=True, blank=True, validators=[validate_file_extension])
 	file_EC = models.FileField(upload_to=root_file_storage+'EC', null=True, blank=True, validators=[validate_file_extension])

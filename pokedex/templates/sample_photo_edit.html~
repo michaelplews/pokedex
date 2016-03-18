@@ -25,13 +25,11 @@
     </div>
 
     <div class="fieldWrapper">
-		{% if form.media %}
-			<p>Yep</p>
-			<p>{{ form.media }}</p>
+		{% if form.cropping %}
+			<p>{{ form.cropping }}</p>
 		{% else %}
-			<p>Nope</p>
+			<p>Cropping is not available at this time</p>
 		{% endif %}
-        {{ form.cropping }}
    </div>
 	<div>
 	 <input type="submit" value="Submit" ng-disabled="{{ form.form_name }}.$invalid" class="btn btn-primary" />

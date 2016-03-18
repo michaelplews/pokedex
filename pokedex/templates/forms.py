@@ -32,6 +32,6 @@ class SampleForm(forms.ModelForm):
                                   required=False, default=datetime.date.today)
 	
 	class Meta:
-		model = models.Sample
-		fields = ('sample_id', 'name', 'formula', 'experiment_medium', 'experiment_atmosphere',
-					'experiment_temperature', 'experiment_equation', 'start_date', 'end_date', 						'file_photo', 'cropping')
+		model = Sample
+		fields = ('cropping', 'sample_id', 'name', 'formula', 'experiment_medium', 'experiment_atmosphere',
+					'experiment_temperature', 'experiment_equation', 'start_date', 'end_date', 						'file_photo')

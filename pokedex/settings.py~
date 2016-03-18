@@ -51,6 +51,9 @@ THUMBNAIL_PROCESSORS = (
 	'image_cropping.thumbnail_processors.crop_corners',
 	) + thumbnail_settings.THUMBNAIL_PROCESSORS
 
+#Had to extract the /static/image_cropping to my static folder from the master zip before this would work for some reason
+
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
