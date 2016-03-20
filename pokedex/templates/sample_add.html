@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Add Sample{% endblock %}
+
+{% block content %}
+<head>
+	{{ form.media }}
+</head>
+<h2>
+	Add New Sample
+</h2>
+
+<a href="{% url 'home' %}" class="btn btn-default">
+	<span class="glyphicon glyphicon-home"></span>
+</a>
+<p>(<b>bold</b> = required)</p>
+<div>
+	<form enctype="multipart/form-data" name="{{ sample_form.form_name }}" id="add_sample_form" method="POST" action="" novalidate>
+<!-- Prevents cross site request forgery -->
+	{% csrf_token %}
+
+{% for field in form %}
+    <div class="fieldWrapper">
+        {{ field.label_tag }} {{ field }}
+        {% for error in field.errors %}
+			<p style="color:#FA0101">{{ error }}</p>
+		{% endfor %}        
+	{% if field.help_text %}
+        <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %}
+    </div>
+{% endfor %}
+
+	 <input type="submit" value="Submit" ng-disabled="{{ form.form_name }}.$invalid" class="btn btn-primary" />
+	</form>
+
+<script>
+
+</script>
+
+</div>
+{% endblock %}

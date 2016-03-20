@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load cropping %}
+{% block title %}Edit Sample{% endblock %}
+
+{% block content %}
+<head>
+	{{ form.media }}
+</head>
+<h2>
+	Edit Sample Information
+</h2>
+
+<a href="{% url 'home' %}" class="btn btn-default">
+	<span class="glyphicon glyphicon-home"></span>
+</a>
+<p>(<b>bold</b> = required)</p>
+<div>
+	<form enctype="multipart/form-data" name="{{ sample_form.form_name }}" id="add_sample_form" method="POST" action="" novalidate>
+<!-- Prevents cross site request forgery -->
+	{% csrf_token %}
+
+    <div class="fieldWrapper">
+        {{ form.file_photo }}
+    </div>
+
+    <div class="fieldWrapper">
+		{% if form.cropping %}
+			<p>{{ form.cropping }}</p>
+		{% else %}
+			<p>Cropping is not available at this time</p>
+		{% endif %}
+   </div>
+	<div>
+	 <input type="submit" value="Submit" ng-disabled="{{ form.form_name }}.$invalid" class="btn btn-primary" />
+	<a href="{{ sample.detail_url }}" class="btn btn-default">Cancel</a>
+	</div>
+	</form>
+	</div>
+</div>
+{% endblock %} 
