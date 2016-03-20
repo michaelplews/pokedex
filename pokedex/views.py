@@ -32,8 +32,8 @@ class BreadcrumbsMixin():
         for step in trail:
             try:
                 new_trail.append(breadcrumb(*step))
-            except TypeError:
                 # Reverse the urls if possible
+            except TypeError:
                 url = reverse(step)
                 name = step.replace('_', ' ').title()
                 new_trail.append(breadcrumb(name, url))
@@ -52,8 +52,8 @@ def sample_breadcrumbs(sample):
     return [
         inventory_breadcrumb(),
         breadcrumb(
-			project.name,
-			reverse('samples_by_projects', kwargs={'id': sample.associated_project.values_list('id', flat=True)})
+			sample.associated_project,
+			reverse('samples_by_projects', kwargs={'id': 2})
 		),
         breadcrumb(
             sample.sample_number,
@@ -130,8 +130,6 @@ class AddSampleView(CreateView):
 		else:
 			return self.form_invalid(form)
 	
-
-	
 	def get_context_data(self, *args, **kwargs):
 		context = super().get_context_data(*args, **kwargs)
 		context.update(sample_form=SampleForm())
@@ -170,14 +168,14 @@ class EditSamplePhotoView(UpdateView):
 	def form_valid(self,form):
 		obj = form.save(commit=False)
 		obj.save()
-		return HttpResponseRedirect(self.get_absolute_url())
+		return HttpResponseRedirect(self.get_success_url())
 		
 	
-class SampleDetailView(DetailView):
+class SampleDetailView(BreadcrumbsMixin, DetailView):
 	template_name = 'sample_detail.html'
 	template_object_name = 'sample'
 	
-	def breadcrumb(self):
+	def breadcrumbs(self):
 		return sample_breadcrumbs(self.object)
 
 	def get_object(self):

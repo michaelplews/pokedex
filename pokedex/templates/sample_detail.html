@@ -8,8 +8,6 @@
 <div class="row">
   <div class="col-sm-6">
     <h2>Sample Details | {{ sample.sample_number }}</h2>
-	<a href="{% url 'home' %}" class="btn btn-default">
-	<span class="glyphicon glyphicon-home"></span></a>
 	<a href="{{ sample.edit_url }}"
 	 title="Edit sample {{ sample.sample_number }}"
 	 class="btn btn-default">
