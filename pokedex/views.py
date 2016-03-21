@@ -52,10 +52,6 @@ def sample_breadcrumbs(sample):
     return [
         inventory_breadcrumb(),
         breadcrumb(
-			sample.associated_project,
-			reverse('samples_by_projects', kwargs={'id': 2})
-		),
-        breadcrumb(
             sample.sample_number,
             reverse('sample_detail', kwargs={'id': sample.id})
         )

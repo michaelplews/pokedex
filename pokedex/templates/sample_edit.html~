@@ -11,18 +11,25 @@
 	Edit Sample Information
 </h2>
 
-<a href="{% url 'home' %}" class="btn btn-default">
-	<span class="glyphicon glyphicon-home"></span>
-</a>
 <p>(<b>bold</b> = required)</p>
 <div>
-	<form enctype="multipart/form-data" name="{{ sample_form.form_name }}" id="add_sample_form" method="POST" action="" novalidate>
+	<form enctype="multipart/form-data" name="{{ sample_form.form_name }}" id="add_sample_form" method="POST" action="">
 <!-- Prevents cross site request forgery -->
 	{% csrf_token %}
 
+<div class='row'>
+	<div class='col-md-6'>
+<dl>
 {% for field in form %}
+{%if forloop.counter|divisibleby:"12" %}
+	</dl>	
+	</div>
+	<div class='col-md-6'>
+	<dl>
+{% endif %}
     <div class="fieldWrapper">
-        {{ field.label_tag }} {{ field }}
+        <dt>{{ field.label_tag }}</dt> 
+	<dd>{{ field }}</dd>
         {% for error in field.errors %}
 			<p style="color:#FA0101">{{ error }}</p>
 		{% endfor %}        
@@ -31,10 +38,11 @@
         {% endif %}
     </div>
 {% endfor %}
-
-	 <input type="submit" value="Submit" ng-disabled="{{ form.form_name }}.$invalid" class="btn btn-primary" />
-	</form>
-
+</dl>
+<input type="submit" value="Submit" ng-disabled="{{ form.form_name }}.$invalid" class="btn btn-primary" />
+<a href="{{ sample.detail_url }}" class="btn btn-default">Cancel</a>
+	</div>
+</div>
 <script>
 
 </script>

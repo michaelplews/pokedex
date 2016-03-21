@@ -8,22 +8,24 @@
 	{{ form.media }}
 </head>
 <h2>
-	Edit Sample Information
+	Edit Sample Photo
 </h2>
 
 <p>(<b>bold</b> = required)</p>
 <div>
-	<form enctype="multipart/form-data" name="{{ sample_form.form_name }}" id="add_sample_form" method="POST" action="" novalidate>
+	<form enctype="multipart/form-data" name="{{ sample_form.form_name }}" id="add_sample_form" method="POST" action="">
 <!-- Prevents cross site request forgery -->
 	{% csrf_token %}
 
     <div class="fieldWrapper">
         {{ form.file_photo }}
+		<p style="color:#FA0101">{{ form.file_photo.errors }}</p>
     </div>
 
     <div class="fieldWrapper">
 		{% if form.cropping %}
 			<p>{{ form.cropping }}</p>
+			<p style="color:#FA0101">{{ form.cropping.errors }}</p>
 		{% else %}
 			<p>Cropping is not available at this time</p>
 		{% endif %}
