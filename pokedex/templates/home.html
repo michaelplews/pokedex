@@ -1,8 +1,14 @@
 {% extends 'base.html' %}
 {% load custom_filters %}
 {% block title %}Home{% endblock %}
+{% load browserid %}
+
+<head>
+	{% browserid_css %}
+</head>
 
 {% block content %}
+
 <div class="row">
 	<div class="col-md-12 text-center">
 		<h2>Select Your Project:</h2>

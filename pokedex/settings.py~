@@ -28,7 +28,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
+    'django_browserid', # Mozilla persona authentication
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -44,6 +45,16 @@ INSTALLED_APPS = (
 	'image_cropping', # from https://github.com/jonasundderwolf/django-image-cropping
 	'pokedex'
 )
+
+# Add the django_browserid authentication backend.
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'django_browserid.auth.BrowserIDBackend',
+)
+
+BROWSERID_CREATE_USER = False
+
+LOGIN_REDIRECT_URL_FAILURE = '/unauthorized/'
 
 #User image-cropping configuration
 from easy_thumbnails.conf import Settings as thumbnail_settings

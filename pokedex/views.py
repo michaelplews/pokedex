@@ -9,9 +9,16 @@ from django.shortcuts import render, render_to_response
 from django.forms import ModelForm
 from django.db.models import Q
 from collections import namedtuple
+from django.contrib.auth.models import User
+#from django.contrib.auth.decorators import user_passes_test
+from braces.views import UserPassesTestMixin
 
 from .models import Sample, Project, User_Project
 from .forms import SampleForm
+
+#User Project Authentication
+
+is_project_authorized = 
 
 #Breadcrumbs
 	
@@ -67,7 +74,7 @@ def project_breadcrumbs(project):
 	]
 	return breadcrumbs
 
-class Main(BreadcrumbsMixin, ListView):
+class Main(ListView):
 	template_name = 'home.html'
 	model = Project
 	context_object_name = 'project'
@@ -184,3 +191,29 @@ class SampleDetailView(BreadcrumbsMixin, DetailView):
 		sample = self.get_object()
 		context = super().get_context_data(*args, **kwargs)
 		return context
+
+class UserView(DetailView):
+    model = User
+    #template_name = 'user_detail.html'
+    context_object_name = 'target_user'
+
+    # @login_required
+    # def dispatch(self, *args, **kwargs):
+    #     return super().dispatch(*args, **kwargs)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        #containers = self.object.container_set.all()
+        #context['container_list'] = containers.order_by('chemical', 'is_empty', 'expiration_date')
+        # Compile chemical inventory statistics for this user
+        #stats = {
+        #    'expired_containers': expired_containers().filter(owner=self.object).count(),
+        #    'total_containers': self.object.container_set.count()
+        #}
+        #context['stats'] = stats
+        return context
+
+def unauthorized(request):
+    """A user has tried to authorize but failed, maybe not in the database."""
+    context = {}
+    return render(request, 'unauthorized.html', context)

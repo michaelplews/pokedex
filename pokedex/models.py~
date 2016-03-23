@@ -64,7 +64,7 @@ class Sample(models.Model):
 	start_date = models.DateField(null=True, default=datetime.date.today)
 	end_date = models.DateField(null=True, default=datetime.date.today)
 
-	associated_project = models.ManyToMany('Project')
+	associated_project = models.ManyToManyField('Project')
 
 	user = models.ForeignKey(User, blank=True, null=True)
 
