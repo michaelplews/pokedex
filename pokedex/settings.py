@@ -58,6 +58,8 @@ LOGIN_REDIRECT_URL_FAILURE = '/unauthorized/'
 
 LOGIN_REDIRECT_URL = '/'
 
+REDIRECT_UNAUTHORIZED_USER = '../../../unauthorized/'
+
 #User image-cropping configuration
 from easy_thumbnails.conf import Settings as thumbnail_settings
 THUMBNAIL_PROCESSORS = (

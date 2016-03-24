@@ -10,6 +10,7 @@ from django.forms import ModelForm
 from django.db.models import Q
 from collections import namedtuple
 from django.contrib.auth.models import User
+from django.contrib.auth import REDIRECT_FIELD_NAME
 #from django.contrib.auth.decorators import user_passes_test
 from braces.views import UserPassesTestMixin
 
@@ -18,7 +19,7 @@ from .forms import SampleForm
 
 #User Project Authentication
 
-is_project_authorized = 
+#REDIRECT_UNAUTHORIZED_USER = '/unauthorized/'
 
 #Breadcrumbs
 	
@@ -87,16 +88,26 @@ class Main(ListView):
 		context = super(Main, self).get_context_data(*args, **kwargs)
 		return context
 
-class SampleListView(BreadcrumbsMixin, DetailView):
+class SampleListView(BreadcrumbsMixin, UserPassesTestMixin, DetailView):
 	"""View that shows all Samples currently under the specified Project"""
 	
 	template_name = 'sample_list.html'
 	model = Project
 	context_object_name = 'project'
+	login_url = '/unauthorized/'
+	redirect_field_name = ''
 		
 	def breadcrumbs(self):
 		return project_breadcrumbs(self.object)
 
+	def test_func(self, user, *args, **kwargs):
+		project = self.get_object()
+		user_project = User_Project.objects.all().filter(active_project = project, user_id = user)
+		if user_project:
+			return True
+		else:
+			return False
+	
 	def get_context_data(self, *args, **kwargs):
 		#sample = self.get_object()
 		project = self.get_object()
@@ -121,12 +132,12 @@ class AddSampleView(CreateView):
 	template_name = 'sample_add.html'
 	success_url = reverse_lazy('home')
 	form_class = SampleForm
-
+	
 	def post(self, request, *args, **kwargs):
 		self.object = None
 		form_class = self.form_class
 		form = self.get_form(form_class)
-		if form.is_valid():
+		if form.is_valid()	:
 			form.save()
 			#return render(request, template_name, {'form':form})
 			return HttpResponseRedirect(self.success_url)

@@ -3,6 +3,7 @@ import datetime
 
 from django import forms
 from image_cropping import ImageCropWidget
+from braces.forms import UserKwargModelFormMixin
 
 from . import models
 
@@ -12,10 +13,11 @@ class DateInput(forms.widgets.DateInput):
     input_type = 'date'
     format_key = 'DATE_INPUT_FORMATS'
 
-class SampleForm(forms.ModelForm):
+class SampleForm(UserKwargModelFormMixin, forms.ModelForm):
 	scope_prefix = 'sample'
 	form_name = 'sample_form'
 	required_css_class = 'required'
+	#user_project = models.Project.objects.all().filter(user_id = request.get.user)
 
 	sample_number = forms.CharField(label='Sample ID', max_length=10, required=True)
 	name = forms.CharField(max_length=200, required=True)
@@ -31,16 +33,20 @@ class SampleForm(forms.ModelForm):
 	end_date = forms.DateField(widget=DateInput(),
                                   required=False)
 
+	associated_project = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), queryset=models.Project.objects.all(), required=True)
+
 	def __init__(self, *args, **kwargs):
 		super(SampleForm, self).__init__(*args, **kwargs)
-
+		user_project = models.User_Project.objects.all()
+		projects = models.Project.objects.all().filter(id = user_project)
+		#self.fields['associated_project'].queryset = projects
 		for key in self.fields:
 			pass
 
 	class Meta:
 		model = models.Sample
 		widget = {
-					'file_photo': ImageCropWidget,
+			'file_photo': ImageCropWidget,
 				}
 		fields = [
 		'sample_number', 'name', 'formula', 'experiment_medium', 			'experiment_atmosphere','experiment_variable', 'experiment_time', 			'experiment_equation', 'start_date','end_date', 'comment', 'file_photo', 'cropping', 'file_XRD', 		'file_EC', 'file_TEM', 'file_TGA', 'file_XAS','associated_project'
