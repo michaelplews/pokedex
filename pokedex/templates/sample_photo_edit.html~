@@ -31,7 +31,7 @@
 		{% endif %}
    </div>
 	<div>
-	 <input type="submit" value="Save" ng-disabled="{{ form.form_name }}.$invalid" class="btn btn-primary" />
+	 <input type="submit" value="Submit" ng-disabled="{{ form.form_name }}.$invalid" class="btn btn-primary" />
 	<a href="{{ sample.detail_url }}" class="btn btn-default">Cancel</a>
 	</div>
 	</form>

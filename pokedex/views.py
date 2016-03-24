@@ -15,7 +15,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from braces.views import UserPassesTestMixin
 
 from .models import Sample, Project, User_Project
-from .forms import SampleForm
+from .forms import SampleForm, SamplePhotoForm
 
 #User Project Authentication
 
@@ -133,11 +133,18 @@ class AddSampleView(CreateView):
 	success_url = reverse_lazy('home')
 	form_class = SampleForm
 	
+	def form_valid(self, form):
+		obj = form.save(commit=False)
+		obj.user = self.request.user
+		obj.save()
+		return HttpResponseRedirect(self.get_success_url())		
+
 	def post(self, request, *args, **kwargs):
 		self.object = None
 		form_class = self.form_class
 		form = self.get_form(form_class)
-		if form.is_valid()	:
+		if form.is_valid():
+			form.user = self.request.user
 			form.save()
 			#return render(request, template_name, {'form':form})
 			return HttpResponseRedirect(self.success_url)
@@ -171,7 +178,7 @@ class EditSamplePhotoView(UpdateView):
 	template_name = 'sample_photo_edit.html'
 	template_object_name = 'sample'
 	model = Sample
-	form_class = SampleForm
+	form_class = SamplePhotoForm
 
 	def get_object(self):
 		"""Returns the specific sample by its id"""
