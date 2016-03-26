@@ -76,6 +76,9 @@ class Sample(models.Model):
 	def __str__(self):
 		return "{sample_number} ({formula})".format(sample_number=self.sample_number, formula=self.stripped_formula)
 
+#Order By Meta data
+
+
 	def detail_url(self):
 		"""Return the url for the detailed view of the sample"""
 		url = reverse('sample_detail', kwargs={'id': self.id})

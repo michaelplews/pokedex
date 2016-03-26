@@ -58,7 +58,7 @@ def inventory_breadcrumb():
 
 def sample_breadcrumbs(sample):
     return [
-        inventory_breadcrumb(),
+        #inventory_breadcrumb(),
         breadcrumb(
             sample.sample_number,
             reverse('sample_detail', kwargs={'id': sample.id})
@@ -67,7 +67,7 @@ def sample_breadcrumbs(sample):
 
 def project_breadcrumbs(project):
 	breadcrumbs = [
-		inventory_breadcrumb(),
+		#inventory_breadcrumb(),
 		breadcrumb(
 			project.name,
 			reverse('samples_by_projects', kwargs={'id': project.id})
@@ -128,10 +128,17 @@ class SampleListView(BreadcrumbsMixin, UserPassesTestMixin, DetailView):
 		project = Project.objects.get(pk=pk)
 		return project
 
-class AddSampleView(CreateView):
+class AddSampleView(BreadcrumbsMixin, CreateView):
 	template_name = 'sample_add.html'
 	success_url = reverse_lazy('home')
 	form_class = SampleForm
+
+	def breadcrumbs(self):
+		breadcrumbs = [
+		#inventory_breadcrumb(),
+		breadcrumb('Add Sample',reverse_lazy('add_sample'))
+	]
+		return breadcrumbs
 	
 	def form_valid(self, form):
 		obj = form.save(commit=False)
@@ -152,16 +159,21 @@ class AddSampleView(CreateView):
 			return self.form_invalid(form)
 	
 	def get_context_data(self, *args, **kwargs):
-		context = super().get_context_data(*args, **kwargs)
+		context = super(AddSampleView, self).get_context_data(*args, **kwargs)
 		context.update(sample_form=SampleForm())
 		return context
 
-class EditSampleView(UpdateView):
+	def get_form_kwargs(self):
+		kwargs = super(AddSampleView, self).get_form_kwargs()
+		kwargs.update({"request": self.request.user})
+		return kwargs
+
+class EditSampleView(BreadcrumbsMixin, UpdateView):
 	template_name = 'sample_edit.html'
 	template_object_name = 'sample'
 	model = Sample
 	form_class = SampleForm
-
+	
 	def get_object(self):
 		"""Returns the specific sample by its id"""
 		id = self.kwargs['id']
@@ -172,14 +184,44 @@ class EditSampleView(UpdateView):
 		obj = form.save(commit=False)
 		obj.save()
 		return HttpResponseRedirect(self.get_success_url())
-	
 
-class EditSamplePhotoView(UpdateView):
+	def get_form_kwargs(self):
+		kwargs = super(EditSampleView, self).get_form_kwargs()
+		kwargs.update({"request": self.request.user})
+		return kwargs
+	
+	def breadcrumbs(self):
+		breadcrumbs = [
+			#inventory_breadcrumb(),
+			#sample_breadcrumbs(self.object),
+			breadcrumb(
+				'Edit Sample',
+				reverse(
+					'edit_sample',
+					kwargs={'id': self.object.id})
+        	)
+		]
+		return sample_breadcrumbs(self.object) + breadcrumbs
+
+class EditSamplePhotoView(BreadcrumbsMixin, UpdateView):
 	template_name = 'sample_photo_edit.html'
 	template_object_name = 'sample'
 	model = Sample
 	form_class = SamplePhotoForm
-
+	
+	def breadcrumbs(self):
+		breadcrumbs = [
+			#inventory_breadcrumb(),
+			#sample_breadcrumbs(self.object),
+			breadcrumb(
+				'Edit Photo',
+				reverse(
+					'edit_sample_photo',
+					kwargs={'id': self.object.id})
+        	)
+		]
+		return sample_breadcrumbs(self.object) + breadcrumbs
+	
 	def get_object(self):
 		"""Returns the specific sample by its id"""
 		id = self.kwargs['id']
