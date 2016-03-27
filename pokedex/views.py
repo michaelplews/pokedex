@@ -103,7 +103,7 @@ class SampleListView(BreadcrumbsMixin, UserPassesTestMixin, DetailView):
 	def test_func(self, user, *args, **kwargs):
 		project = self.get_object()
 		user_project = User_Project.objects.all().filter(active_project = project, user_id = user)
-		if user_project:
+		if user_project or user.is_superuser:
 			return True
 		else:
 			return False
@@ -144,20 +144,22 @@ class AddSampleView(BreadcrumbsMixin, CreateView):
 		obj = form.save(commit=False)
 		obj.user = self.request.user
 		obj.save()
-		return HttpResponseRedirect(self.get_success_url())		
+		#self.object = obj.save()
+		return HttpResponseRedirect(self.success_url)		
 
-	def post(self, request, *args, **kwargs):
-		self.object = None
-		form_class = self.form_class
-		form = self.get_form(form_class)
-		if form.is_valid():
-			form.user = self.request.user
-			form.save()
+#	def post(self, request, *args, **kwargs):
+#		self.object = None
+#		form_class = self.form_class
+#		form = self.get_form(form_class)
+#		if form.is_valid():
+#			form.user = self.request.user
+#			form.save()
+#			self.object = form
 			#return render(request, template_name, {'form':form})
-			return HttpResponseRedirect(self.success_url)
-		else:
-			return self.form_invalid(form)
-	
+#			return HttpResponseRedirect(self.success_url)
+#		else:
+#			return self.form_invalid(form)
+
 	def get_context_data(self, *args, **kwargs):
 		context = super(AddSampleView, self).get_context_data(*args, **kwargs)
 		context.update(sample_form=SampleForm())
