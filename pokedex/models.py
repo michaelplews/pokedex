@@ -48,7 +48,7 @@ class Sample(models.Model):
 	experiment_atmosphere = models.CharField(max_length=50, choices=AVAILABLE_ATMOSPHERES)
 	experiment_variable = models.FloatField(null=True, blank=True)
 	experiment_time = models.FloatField(blank=True, null=True)
-	experiment_equation = models.CharField(max_length=200, blank=True)
+	experiment_equation = models.TextField(blank=True)
 	variable_units = models.CharField(max_length=5, blank=True)	
 
 	file_photo = ImageCropField(blank=True, null=True, upload_to=root_file_storage+'Photo')

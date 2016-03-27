@@ -47,6 +47,16 @@ img.sample-appearance {
 	
 }
 
+.glyphicon.glyphicon-one-fine-dot {
+    margin-bottom: -0.25em;
+    overflow: hidden;
+}
+.glyphicon.glyphicon-one-fine-dot:before {
+    content:"\25cf";
+    font-size: 0.5em;
+	vertical-align: top;
+}
+
 .hover-fade {
    opacity: 1;
    transition: opacity .25s ease-in-out;
