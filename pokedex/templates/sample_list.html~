@@ -27,7 +27,7 @@
     </div>
   </div>
 </div>
-<a href="{% url 'add_sample' %}" class="btn btn-primary">
+<a href="{% url 'add_sample' %}" class="btn btn-default">
 	<span class="glyphicon glyphicon-plus"></span> Add Sample
 </a>
 
@@ -68,7 +68,7 @@
 {% else %}
 	<!-- No samples were found -->
 	<div class="alert alert-warning no-chemicals">
-  	You have no samples associated with this project!
+  	No samples were found.
 	</div>
 {% endif %}
 {% endblock %}

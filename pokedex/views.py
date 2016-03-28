@@ -26,44 +26,44 @@ from .forms import SampleForm, SamplePhotoForm
 breadcrumb = namedtuple('breadcrumb', ('name', 'url'))
 
 class BreadcrumbsMixin():
-    """Provides context information to allow the template to render a
-    breadcrumb navigation trail.
-    """
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        try:
-            trail = self.breadcrumbs()
-        except AttributeError as e:
-            trail = []
-            raise
-        new_trail = []
-        for step in trail:
-            try:
-                new_trail.append(breadcrumb(*step))
-                # Reverse the urls if possible
-            except TypeError:
-                url = reverse(step)
-                name = step.replace('_', ' ').title()
-                new_trail.append(breadcrumb(name, url))
-        context['breadcrumbs'] = new_trail
-        return context
+	"""Provides context information to allow the template to render a
+	breadcrumb navigation trail.
+	"""
+	def get_context_data(self, *args, **kwargs):
+		context = super().get_context_data(*args, **kwargs)
+		try:
+			trail = self.breadcrumbs()
+		except AttributeError as e:
+			trail = []
+			raise
+		new_trail = []
+		for step in trail:
+			try:
+				new_trail.append(breadcrumb(*step))
+				# Reverse the urls if possible
+			except TypeError:
+				url = reverse(step)
+				name = step.replace('_', ' ').title()
+				new_trail.append(breadcrumb(name, url))
+		context['breadcrumbs'] = new_trail
+		return context
 
-    def breadcrumbs(self):
-        msg = "Please override the 'breadcrumbs()' method of {}"
-        raise NotImplementedError(msg.format(self.__class__))
+	def breadcrumbs(self):
+		msg = "Please override the 'breadcrumbs()' method of {}"
+		raise NotImplementedError(msg.format(self.__class__))
 
 # Breadcrumbs definitions
 def inventory_breadcrumb():
-    return breadcrumb('Home', reverse_lazy('home'))
+	return breadcrumb('Home', reverse_lazy('home'))
 
 def sample_breadcrumbs(sample):
-    return [
-        #inventory_breadcrumb(),
-        breadcrumb(
-            sample.sample_number,
-            reverse('sample_detail', kwargs={'id': sample.id})
-        )
-    ]
+	return [
+		#inventory_breadcrumb(),
+		breadcrumb(
+			sample.sample_number,
+			reverse('sample_detail', kwargs={'id': sample.id})
+		)
+	]
 
 def project_breadcrumbs(project):
 	breadcrumbs = [
@@ -122,9 +122,9 @@ class SampleListView(BreadcrumbsMixin, UserPassesTestMixin, DetailView):
 
 	def get_object(self):
 		"""Return the specific Project by its primary key ('pk')."""
-        	# Find the primary key from the url
+			# Find the primary key from the url
 		pk = self.kwargs['id']
-        	# Get the actual Project object
+			# Get the actual Project object
 		project = Project.objects.get(pk=pk)
 		return project
 
@@ -146,19 +146,6 @@ class AddSampleView(BreadcrumbsMixin, CreateView):
 		obj.save()
 		#self.object = obj.save()
 		return HttpResponseRedirect(obj.get_absolute_url())		
-
-#	def post(self, request, *args, **kwargs):
-#		self.object = None
-#		form_class = self.form_class
-#		form = self.get_form(form_class)
-#		if form.is_valid():
-#			form.user = self.request.user
-#			form.save()
-#			self.object = form
-			#return render(request, template_name, {'form':form})
-#			return HttpResponseRedirect(self.success_url)
-#		else:
-#			return self.form_invalid(form)
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(AddSampleView, self).get_context_data(*args, **kwargs)
@@ -202,7 +189,7 @@ class EditSampleView(BreadcrumbsMixin, UpdateView):
 				reverse(
 					'edit_sample',
 					kwargs={'id': self.object.id})
-        	)
+			)
 		]
 		return sample_breadcrumbs(self.object) + breadcrumbs
 
@@ -221,7 +208,7 @@ class EditSamplePhotoView(BreadcrumbsMixin, UpdateView):
 				reverse(
 					'edit_sample_photo',
 					kwargs={'id': self.object.id})
-        	)
+			)
 		]
 		return sample_breadcrumbs(self.object) + breadcrumbs
 	
@@ -256,27 +243,27 @@ class SampleDetailView(BreadcrumbsMixin, DetailView):
 		return context
 
 class UserView(DetailView):
-    model = User
-    #template_name = 'user_detail.html'
-    context_object_name = 'target_user'
+	model = User
+	template_name = 'user_detail.html'
+	context_object_name = 'target_user'
 
-    # @login_required
-    # def dispatch(self, *args, **kwargs):
-    #     return super().dispatch(*args, **kwargs)
+	def get_object(self):
+		id = self.kwargs['id']
+		user = self.request.user
+		return user
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        #containers = self.object.container_set.all()
-        #context['container_list'] = containers.order_by('chemical', 'is_empty', 'expiration_date')
-        # Compile chemical inventory statistics for this user
-        #stats = {
-        #    'expired_containers': expired_containers().filter(owner=self.object).count(),
-        #    'total_containers': self.object.container_set.count()
-        #}
-        #context['stats'] = stats
-        return context
+	def get_context_data(self, *args, **kwargs):
+		context = super().get_context_data(*args, **kwargs)
+		project = Project.objects.all()
+		user = self.get_object
+		user_project = User_Project.objects.all().filter(user = user)
+		#find project objects
+		projects = Project.objects.all().filter(user_project = user_project)
+		context['projects'] = projects
+		context['samples'] = Sample.objects.all()
+		return context
 
 def unauthorized(request):
-    """A user has tried to authorize but failed, maybe not in the database."""
-    context = {}
-    return render(request, 'unauthorized.html', context)
+	"""A user has tried to authorize but failed, maybe not in the database."""
+	context = {}
+	return render(request, 'unauthorized.html', context)

@@ -97,15 +97,28 @@ class Sample(models.Model):
 	def get_absolute_url(self):
 		return reverse('sample_detail', kwargs={'id': self.id})
 
+	@property
+	def is_archived(self):
+		projects = Project.objects.all().filter(is_archived = True).values_list('id', flat=True)
+		if Sample.objects.all().filter(associated_project__in=projects, id=self.id):
+			return True
+		else:	
+			return False
+
 class Project(models.Model):
 	"""A Project refers to the grouping of Samples. Specific users should only be able to add a Sample to a certain Project. The name field should describe the Project with no elements or chemical names."""
 	name = models.CharField(max_length=50)
-	
+	is_archived = models.BooleanField(default=False, verbose_name = "Archived?")	
+
 	class Meta:
 		ordering = ['name']
 	
 	def __str__(self):
-		return "{name}".format(name=self.name)
+		if self.is_archived:
+			return "{name} (Archived)".format(name=self.name)
+		else:
+			return "{name}".format(name=self.name)
+
 
 	def detail_url(self):
 		"""Returns the url for the Project"""
@@ -130,7 +143,7 @@ class User_Project(models.Model):
 		verbose_name_plural = 'User Projects'
 	
 	def __str__(self):
-		return "{first} {last} (Active Projects: {length})".format(first=self.first_name, last=self.last_name, length=self.active_project.count(), )
+		return "{first} {last} (Projects: {length})".format(first=self.first_name, last=self.last_name, length=self.active_project.count(), )
 
 @receiver(signals.pre_save, sender=Sample)
 def strip_formula(sender, instance, raw, using, update_fields, *args, **kwargs):

@@ -8,14 +8,20 @@
 <div class="row">
   <div class="col-sm-6">
     <h2>Sample Details | {{ sample.sample_number }}</h2>
-	<a href="{% url 'home' %}" class="btn btn-default">
-	<span class="glyphicon glyphicon-home"></span></a>
+		{% if sample.is_archived %}
+	<a href="#"
+	 class="btn btn-default hover-fade" title="This sample is associated with an archived project">
+			<span class="glyphicon glyphicon-lock"></span>
+			Edit Information
+      		</a>
+		{% else %}
 	<a href="{{ sample.edit_url }}"
-	 title="Edit sample {{ sample.sample_number }}"
-	 class="btn btn-default">
-	<span class="glyphicon glyphicon-pencil"></span>
-	Edit Information
-      </a>
+	 class="btn btn-default"
+			 title="Edit sample {{ sample.sample_number }}"
+			<span class="glyphicon glyphicon-pencil"></span>
+			Edit Information
+      		</a>
+		{% endif %}
   </div>
 </div>
 <div class="row">
@@ -33,7 +39,8 @@
 	
 			<dt>Atmosphere</dt>
 			<dd>{{ sample.experiment_atmosphere }}</dd>
-
+		</dl>
+		<dl>
 			<dt>Date</dt>
 			{% if sample.end_date == sample.start_date %}
 			<dd>{{ sample.end_date }}

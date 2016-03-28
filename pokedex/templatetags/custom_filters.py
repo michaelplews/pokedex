@@ -24,14 +24,18 @@ def formula_markup(formula):
 		if formula[x] in ('^'):
 			formula = insert_superscript(formula, x)
 			x += 5
-		if formula[x] in ('.'):
+		if formula[x] in ('|'):
 			formula = insert_bullet(formula, x)
 			x += 6
 		x += 1
-	formula = formula.replace("_","").replace("^", "").replace(".", "")
+	formula = formula.replace("_","").replace("^", "").replace("|", "")
 	return mark_safe(formula)
 
 @register.filter(name='latex_surr')
 def latex_surr(equation):
 	equation = '$$' + equation + '$$'
 	return mark_safe(equation)
+
+@register.filter
+def in_project(sample, project):
+    return sample.filter(associated_project = project)

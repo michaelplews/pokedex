@@ -115,7 +115,7 @@ class SampleForm(UserKwargModelFormMixin, forms.ModelForm):
 		#get projects associated with current user
 		user_project = models.User_Project.objects.all().filter(user = self.request)
 		#find project objects
-		projects = models.Project.objects.all().filter(user_project = user_project)
+		projects = models.Project.objects.all().filter(is_archived = False, user_project = user_project)
 		self.fields['associated_project'].queryset = projects
 		#for key in self.fields:
 		#	pass

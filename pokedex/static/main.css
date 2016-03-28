@@ -57,6 +57,10 @@ img.sample-appearance {
 	vertical-align: top;
 }
 
+.archived {
+	opacity: 0.5;
+}
+
 .hover-fade {
    opacity: 1;
    transition: opacity .25s ease-in-out;
@@ -91,6 +95,13 @@ img.sample-appearance {
     opacity: 0.4;
     font-style: italic;
 }
+
+.disabled{
+    pointer-events: none;
+    opacity: 0.4;
+    font-style: italic;
+}
+
 
 p.login_notify{
     pointer-events: none;
