@@ -130,7 +130,7 @@ class SampleListView(BreadcrumbsMixin, UserPassesTestMixin, DetailView):
 
 class AddSampleView(BreadcrumbsMixin, CreateView):
 	template_name = 'sample_add.html'
-	success_url = reverse_lazy('home')
+	#success_url = reverse_lazy('home')
 	form_class = SampleForm
 
 	def breadcrumbs(self):
@@ -145,7 +145,7 @@ class AddSampleView(BreadcrumbsMixin, CreateView):
 		obj.user = self.request.user
 		obj.save()
 		#self.object = obj.save()
-		return HttpResponseRedirect(self.success_url)		
+		return HttpResponseRedirect(obj.get_absolute_url())		
 
 #	def post(self, request, *args, **kwargs):
 #		self.object = None
@@ -185,6 +185,7 @@ class EditSampleView(BreadcrumbsMixin, UpdateView):
 	def form_valid(self,form):
 		obj = form.save(commit=False)
 		obj.save()
+		form.save_m2m()
 		return HttpResponseRedirect(self.get_success_url())
 
 	def get_form_kwargs(self):
