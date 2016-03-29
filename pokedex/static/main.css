@@ -72,6 +72,24 @@ img.sample-appearance {
       opacity: 0.5;
       }
 
+div.overlay {
+	position:relative;
+	left:0;
+	top:0;
+}
+
+img.overlay-bottom {
+	position:relative;
+	top:0;
+	left:0;
+}
+
+img.overlay-top {
+	position:absolute;
+	top:30;
+	left:70;
+}
+
 .current-user {
     margin-top: 5px;
 }
@@ -101,7 +119,6 @@ img.sample-appearance {
     opacity: 0.4;
     font-style: italic;
 }
-
 
 p.login_notify{
     pointer-events: none;

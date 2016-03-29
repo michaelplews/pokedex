@@ -75,6 +75,15 @@ def project_breadcrumbs(project):
 	]
 	return breadcrumbs
 
+def user_breadcrumb(user):
+	breadcrumbs = [
+		breadcrumb(
+			user.first_name,
+			reverse_lazy('user_detail')
+		)
+	]
+	return breadcrumbs
+
 class Main(ListView):
 	template_name = 'home.html'
 	model = Project
@@ -242,13 +251,15 @@ class SampleDetailView(BreadcrumbsMixin, DetailView):
 		context = super().get_context_data(*args, **kwargs)
 		return context
 
-class UserView(DetailView):
+class UserView(BreadcrumbsMixin, DetailView):
 	model = User
 	template_name = 'user_detail.html'
 	context_object_name = 'target_user'
 
+	def breadcrumbs(self):
+		return user_breadcrumb(self.object)
+
 	def get_object(self):
-		id = self.kwargs['id']
 		user = self.request.user
 		return user
 

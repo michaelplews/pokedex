@@ -49,12 +49,10 @@
 	  		</div>
 	  			{% elif request.GET.next %}
 				<p></p>
-	   				{% browserid_login text='Login' color='light' next=request.GET.next %}
-				</p>	  			
+	   				{% browserid_login text='Login' color='light' next=request.GET.next %} 			
 				{% else %}
 				<p></p>	    		
-					{% browserid_login text='Login' color='light' next=request.path %}
-				</p>	  			
+					{% browserid_login text='Login' color='light' next=request.path %}	
 				{% endif %}
 		</div>
 	</div>

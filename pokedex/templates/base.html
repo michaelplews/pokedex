@@ -37,7 +37,8 @@
 		<div class="col-md-2 pull-right">
 				<!-- User authentication and user_id -->
 	  		{% if user.is_authenticated %}
-  		<p class="text-center">Welcome, {{ user.first_name }}
+  		<p class="text-center">Welcome, 
+			<a href="{% url 'user_detail' %}">{{ user.first_name }}</a>
  		</p>
 	  		<div class="auth-options text-center">
 	    		{% if user.is_staff %}
